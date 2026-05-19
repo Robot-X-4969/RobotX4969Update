@@ -11,8 +11,6 @@ public class Stopwatch {
 
         start(millis);
 
-        isPaused = false;
-
     }
 
     public void reset(){
@@ -32,6 +30,7 @@ public class Stopwatch {
     public void stop(){
 
         targetDuration = 0;
+        isPaused = false;
 
     }
 
@@ -77,6 +76,12 @@ public class Stopwatch {
     public boolean isTimerDone(){
 
         return getRemainingNanoTime() == 0;
+
+    }
+
+    public boolean isRunning(){
+
+        return getRemainingNanoTime() > 0 && !isPaused;
 
     }
 
