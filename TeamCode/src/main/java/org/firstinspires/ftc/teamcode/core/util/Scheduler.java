@@ -15,7 +15,12 @@ public class Scheduler {
 
             Event event = iterator.next();
 
-            if(event.getStopwatch().isTimerDone()){
+            if(event.getStopwatch().isTimerDone() && event.isRepeating()){
+
+                event.run();
+                event.getStopwatch().reset();
+
+            } else if(event.getStopwatch().isTimerDone() && !event.isRepeating()) {
 
                 event.run();
                 iterator.remove();
@@ -63,5 +68,5 @@ public class Scheduler {
         eventMap.remove(id);
 
     }
-
+    
 }

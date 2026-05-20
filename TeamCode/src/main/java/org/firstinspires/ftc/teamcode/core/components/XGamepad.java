@@ -91,10 +91,131 @@ public class XGamepad {
         backButton.update(gamepad.back);
         guideButton.update(gamepad.guide);
 
+    }
+
+    public float getLeftStickX() {
+
+        return leftStickX;
 
     }
 
+    public float getLeftStickY() {
 
+        return leftStickY;
 
+    }
 
+    public float getRightStickX() {
+
+        return rightStickX;
+
+    }
+
+    public float getRightStickY() {
+
+        return rightStickY;
+
+    }
+
+    public float getLeftTriggerPressure() {
+
+        return leftTriggerPressure;
+
+    }
+
+    public float getRightTriggerPressure() {
+
+        return rightTriggerPressure;
+
+    }
+
+    public Button getUp() {
+
+        return dPadUp;
+
+    }
+
+    public Button getDown() {
+
+        return dPadDown;
+
+    }
+
+    public Button getLeft() {
+
+        return dPadLeft;
+
+    }
+
+    public Button getRight() {
+
+        return dPadRight;
+
+    }
+
+    public Button getA() {
+
+        return aButton;
+
+    }
+
+    public Button getB() {
+
+        return bButton;
+
+    }
+
+    public Button getX() {
+
+        return xButton;
+
+    }
+
+    public Button getY() {
+
+        return yButton;
+
+    }
+
+    public Button getLeftBumper() {
+
+        return leftBumper;
+
+    }
+
+    public Button getRightBumper() {
+
+        return rightBumper;
+
+    }
+
+    public Button getLeftStickButton() {
+
+        return leftStickButton;
+
+    }
+
+    public Button getRightStickButton() {
+
+        return rightStickButton;
+
+    }
+
+    public Button getStartButton() {
+
+        return startButton;
+
+    }
+
+    public Button getBackButton() {
+
+        return backButton;
+
+    }
+
+    public Button getGuideButton() {
+
+        return guideButton;
+
+    }
 }

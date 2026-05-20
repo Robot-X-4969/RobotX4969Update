@@ -19,7 +19,7 @@ public class Button {
 
     }
 
-    public boolean currentState() {
+    public boolean isPressed() {
 
         return currentState;
 
