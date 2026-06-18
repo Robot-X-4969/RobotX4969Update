@@ -61,7 +61,7 @@ public class XGamepad {
 
     }
 
-    public void update(){
+    public void updateValues(){
 
         leftStickX = gamepad.left_stick_x;
         leftStickY = gamepad.left_stick_y;
@@ -218,4 +218,5 @@ public class XGamepad {
         return guideButton;
 
     }
+
 }

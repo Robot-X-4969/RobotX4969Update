@@ -16,15 +16,6 @@ public class Event {
 
     }
 
-    public Event(String id, long millis, Runnable action){
-
-        this.id = id;
-        this.action = action;
-        this.stopwatch = new Stopwatch(millis);
-        this.repeating = false;
-
-    }
-
     public void run(){
 
         action.run();

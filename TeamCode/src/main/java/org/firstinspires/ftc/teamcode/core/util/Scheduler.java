@@ -31,17 +31,17 @@ public class Scheduler {
 
     }
 
-    public void scheduleEvent(String id, long millis, Runnable action){
+    public void scheduleEvent(String id, long millis, Runnable action, boolean repeating){
 
         if(getEvent(id) == null) {
 
-            eventMap.put(id, new Event(id, millis, action));
+            eventMap.put(id, new Event(id, millis, action, repeating));
 
         }
 
     }
 
-    public void rescheduleEvent(String id, Long newMillis, Runnable newAction){
+    public void rescheduleEvent(String id, Long newMillis, Runnable newAction, Boolean newRepeating) {
 
         Event existing = getEvent(id);
 
@@ -51,7 +51,8 @@ public class Scheduler {
 
             long millis = newMillis == null ? (existing.getStopwatch().getRemainingNanoTime() / 1_000_000) : newMillis;
             Runnable action = newAction == null ? existing.getAction() : newAction;
-            eventMap.put(id, new Event(id, millis, action));
+            boolean repeating = newRepeating == null ? existing.isRepeating() : newRepeating;
+            eventMap.put(id, new Event(id, millis, action, repeating));
 
         }
 
@@ -68,5 +69,5 @@ public class Scheduler {
         eventMap.remove(id);
 
     }
-    
+
 }
