@@ -1,7 +1,13 @@
 package org.firstinspires.ftc.teamcode.core.util;
 
+/**
+ * A utility class for managing button states and durations on the gamepad.
+ *
+ * @author
+ */
 public class Button {
 
+    private Clock clock;
     private boolean lastState;
     private boolean currentState;
     private long timePressed;
