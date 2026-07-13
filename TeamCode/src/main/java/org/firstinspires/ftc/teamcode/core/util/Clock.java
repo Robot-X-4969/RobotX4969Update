@@ -16,33 +16,30 @@ package org.firstinspires.ftc.teamcode.core.util;
  * @author Evan (original stopwatch implementation)
  * @author John Daniher(refactor)
  * @author Gavin Farrell (refactor into Clock class)
- * @version 2.0
+ * @version 3.0
  * @since 2026/06
  *
  */
 public final class Clock {
 
-    /**
-     * Defines the operational modes of the Clock utility.
-     */
+    /**Defines the operational modes of the Clock utility.*/
     private enum Mode {STOPWATCH, TIMER}
-    /**
-     * Defines the possible states of the Clock utility.
-     */
+    /** Defines the possible states of the Clock utility.*/
     private enum ClockState {RUNNING, PAUSED, STOPPED}
-    /// The operational mode of the clock (STOPWATCH or TIMER).
+
+    /**The operational mode of the clock (STOPWATCH or TIMER).*/
     private final Mode mode;
-    /// The target duration in nanoseconds for TIMER mode. For STOPWATCH mode, this is set to 0 and ignored.
+    /**The target duration in nanoseconds for TIMER mode. For STOPWATCH mode, this is set to 0 and ignored.*/
     private final long targetDuration;
-    /// The current state of the clock (RUNNING, PAUSED, or STOPPED).
+    /**The current state of the clock (RUNNING, PAUSED, or STOPPED).*/
     private ClockState state;
-    /// The starting time of the clock in nanoseconds.
+    /**The starting time of the clock in nanoseconds.*/
     private long startTime;
-    /// The accumulated time in nanoseconds, used to preserve elapsed time when pausing and resuming the clock.
+    /**The accumulated time in nanoseconds, used to preserve elapsed time when pausing and resuming the clock.*/
     private long accumulatedTime;
 
     /**
-     * Constructs and immediately starts a new Clock instance with the specified mode and duration.
+     * Constructs a new Clock instance with the specified mode and duration.
      *
      * @param mode The operational mode of the clock (STOPWATCH or TIMER).
      * @param duration The target duration in milliseconds for TIMER mode. Ignored for STOPWATCH mode.

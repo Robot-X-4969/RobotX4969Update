@@ -3,11 +3,29 @@ package org.firstinspires.ftc.teamcode.core.util;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Scheduler {
+/**
+ * Manages the registration, timing, execution, and safe removal of {@link Event} instances.
+ * <p>
+ * The <code>Scheduler</code> serves as a central hub for handling asynchronous-like
+ * tasks synchronously within a single-threaded robot loop. It relies on a <code>HashMap</code>
+ * to store events by unique string identifiers, ensuring fast lookups and preventing
+ * duplicate event registrations.
+ * </p>
+ *
+ * @author John Daniher (original implementation)
+ * @author Gavin Farrell (refactor)
+ * @version 2.0
+ * @see Event
+ */
+public final class Scheduler {
+
 
     private final HashMap<String, Event> eventMap = new HashMap<>();
 
-    public void loop(){
+    /**
+     * Polls all events in the event map and runs them if their timer is done.
+     */
+    public void pollEvents(){
 
         Iterator<Event> iterator = eventMap.values().iterator();
 
@@ -15,14 +33,27 @@ public class Scheduler {
 
             Event event = iterator.next();
 
-            if(event.getStopwatch().isTimerDone() && event.isRepeating()){
+            if(event.isCancelled()){
 
-                event.run();
-                event.getStopwatch().reset();
+                iterator.remove();
+                continue;
 
-            } else if(event.getStopwatch().isTimerDone() && !event.isRepeating()) {
+            }
+            if(!event.getTimer().isTimerDone()){
 
-                event.run();
+                continue;
+
+            }
+
+            event.run();
+
+            if(event.isRepeating()){
+
+                event.getTimer().reset();
+                event.getTimer().start();
+
+            } else {
+
                 iterator.remove();
 
             }
@@ -31,42 +62,59 @@ public class Scheduler {
 
     }
 
+    /**
+     * Schedules an event to be run after a certain amount of time.
+     *
+     * @param id The unique id of the event.
+     * @param millis The time in milliseconds after which the event should be run.
+     * @param action The action to be run.
+     * @param repeating Whether the event should be repeated or not.
+     */
     public void scheduleEvent(String id, long millis, Runnable action, boolean repeating){
 
-        if(getEvent(id) == null) {
+        if(eventMap.get(id) == null) {
 
             eventMap.put(id, new Event(id, millis, action, repeating));
+
+        } else {
+
+            //throw and error that the event already exists
 
         }
 
     }
 
-    public void rescheduleEvent(String id, Long newMillis, Runnable newAction, Boolean newRepeating) {
+    /**
+     * Overloaded function that schedules a non-repeating event to be run after a certain amount of time.
+     *
+     * @param id The unique id of the event.
+     * @param millis The time in milliseconds after which the event should be run.
+     * @param action The action to be run.
+     */
+    public void scheduleEvent(String id, long millis, Runnable action) {
 
-        Event existing = getEvent(id);
-
-        if(existing != null) {
-
-            cancelEvent(id);
-
-            long millis = newMillis == null ? (existing.getStopwatch().getRemainingNanoTime() / 1_000_000) : newMillis;
-            Runnable action = newAction == null ? existing.getAction() : newAction;
-            boolean repeating = newRepeating == null ? existing.isRepeating() : newRepeating;
-            eventMap.put(id, new Event(id, millis, action, repeating));
-
-        }
+        scheduleEvent(id, millis, action, false);
 
     }
 
-    public Event getEvent(String id) {
-
-        return eventMap.get(id);
-
-    }
-
+    /**
+     * Cancels an event with the given id.
+     *
+     * @param id The unique id of the event to be canceled.
+     */
     public void cancelEvent(String id) {
 
-        eventMap.remove(id);
+        Event event = eventMap.get(id);
+
+        if(event != null){
+
+            event.cancel();
+
+        } else {
+
+            //throw an error that the event does not exist
+
+        }
 
     }
 
