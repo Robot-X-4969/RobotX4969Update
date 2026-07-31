@@ -1,4 +1,10 @@
 package org.firstinspires.ftc.teamcode.core.components;
 
-public class XCamera {
+public class Limelight {
+
+
+
+
+
+
 }

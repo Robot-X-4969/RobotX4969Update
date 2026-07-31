@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.core.templates.BaseOpMode;
 import org.firstinspires.ftc.teamcode.core.templates.Component;
 import org.firstinspires.ftc.teamcode.core.util.LogEntry;
 
-
 public final class Pinpoint extends Component {
 
     private final GoBildaPinpointDriver pinpoint;
@@ -52,6 +51,14 @@ public final class Pinpoint extends Component {
             pinpoint.setEncoderDirections(xPodDirection, yPodDirection);
 
         }
+
+    }
+
+    public void getDebugValues() {
+
+        opMode.logData(new LogEntry(BaseOpMode.EntryType.DEBUG, Double.toString(getX()), "Pinpoint X: "));
+        opMode.logData(new LogEntry(BaseOpMode.EntryType.DEBUG, Double.toString(getY()), "Pinpoint Y:"));
+        opMode.logData(new LogEntry(BaseOpMode.EntryType.DEBUG, Double.toString(getHeading()), "Pinpoint Heading: "));
 
     }
 

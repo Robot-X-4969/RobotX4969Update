@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.core.templates;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import org.firstinspires.ftc.teamcode.core.util.Scheduler;
 
 public abstract class Component {
     protected final BaseOpMode opMode;

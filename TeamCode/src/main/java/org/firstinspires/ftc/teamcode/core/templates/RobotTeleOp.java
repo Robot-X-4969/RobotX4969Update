@@ -13,7 +13,11 @@ import java.util.ArrayList;
 public abstract class RobotTeleOp extends BaseOpMode {
 
 
+    public RobotTeleOp() {
 
+        super();
+
+    }
 
     @Override
     public void init() {

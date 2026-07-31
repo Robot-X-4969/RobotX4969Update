@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.core.util;
 
+import org.firstinspires.ftc.teamcode.core.templates.BaseOpMode;
 import org.firstinspires.ftc.teamcode.core.templates.RobotOpMode;
 
 import java.util.ArrayList;
@@ -7,10 +8,10 @@ import java.util.ArrayList;
 public final class DriverInterface {
 
     private final ArrayList<MenuOption> menuOptions;
-    private final RobotOpMode opMode;
+    private final BaseOpMode opMode;
 
 
-    public DriverInterface(RobotOpMode opMode) {
+    public DriverInterface(BaseOpMode opMode) {
 
         this.opMode = opMode;
 

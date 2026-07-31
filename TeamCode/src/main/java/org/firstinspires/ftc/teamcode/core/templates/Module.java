@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.core.templates;
 
-
-
 public abstract class Module {
 
     protected final BaseOpMode opMode;
@@ -12,29 +10,12 @@ public abstract class Module {
 
     }
 
-    public void init() {
+    public abstract void init();
 
+    public abstract void init_loop();
 
-    }
+    public abstract void loop();
 
-    public void init_loop() {
-
-
-
-    }
-
-    public void loop() {
-
-
-    }
-
-
-
-    public void stop() {
-
-
-    }
-
-
+    public abstract void stop();
 
 }

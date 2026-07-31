@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.core.templates;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.core.util.DriverStation;
@@ -17,12 +15,13 @@ public abstract class BaseOpMode extends OpMode {
     private final DriverStation driverStation;
     private final Scheduler scheduler;
     private final ArrayList<Module> modules;
-    ArrayList<LogEntry> errorLog;
-    ArrayList<LogEntry> debugLog;
+    private final ArrayList<LogEntry> errorLog;
+    private final ArrayList<LogEntry> debugLog;
+
     public BaseOpMode(){
 
         driverStation = new DriverStation(gamepad1, gamepad2);
-        scheduler = new Scheduler();
+        scheduler = new Scheduler(this);
         modules = new ArrayList<>();
         errorLog = new ArrayList<>();
         debugLog = new ArrayList<>();
@@ -96,6 +95,18 @@ public abstract class BaseOpMode extends OpMode {
                 break;
 
         }
+
+    }
+
+    public DriverStation getDriverStation(){
+
+        return driverStation;
+
+    }
+
+    public Scheduler getScheduler() {
+
+        return scheduler;
 
     }
 
