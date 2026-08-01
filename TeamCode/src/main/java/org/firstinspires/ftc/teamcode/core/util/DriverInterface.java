@@ -1,84 +1,144 @@
 package org.firstinspires.ftc.teamcode.core.util;
 
-import org.firstinspires.ftc.teamcode.core.templates.BaseOpMode;
-import org.firstinspires.ftc.teamcode.core.templates.RobotOpMode;
+import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
 
 import java.util.ArrayList;
 
 public final class DriverInterface {
-
-    private final ArrayList<MenuOption> menuOptions;
     private final BaseOpMode opMode;
+    private final MenuBuilder menu;
 
 
-    public DriverInterface(BaseOpMode opMode) {
+    public DriverInterface(BaseOpMode opMode, MenuBuilder menu) {
 
         this.opMode = opMode;
-
-        this.menuOptions = new ArrayList<>();
+        this.menu = menu;
 
     }
 
+    public static MenuBuilder buildMenu(BaseOpMode opMode) {
 
+        return new MenuBuilder("root", null, opMode);
 
-
-
-
-
-
-
-}
-
-class MenuOption {
-
-    private final ArrayList<MenuOption> subOptions;
-    private final String name;
-    private final Runnable action;
-
-
+    }
 
 }
 
 class MenuBuilder {
 
-    private final String name;
-    private ;
+    private final MenuBuilder parent;
+    private final String optionName;
+    private final Runnable action;
+    private final ArrayList<MenuBuilder> subOptions;
+    private final BaseOpMode opMode;
 
-    public MenuBuilder() {
+    private final boolean isSubMenu;
 
-        this.name = "Menu";
-        this.
+    public MenuBuilder(String optionName, Runnable action, MenuBuilder parent, BaseOpMode opMode) {
+
+        this.optionName = optionName;
+        this.action = action;
+        this.parent = parent;
+        this.opMode = opMode;
+
+        subOptions = new ArrayList<>();
+        isSubMenu = false;
 
     }
 
-    public static MenuBuilder create() {
+    public MenuBuilder(String optionName, MenuBuilder parent, BaseOpMode opMode) {
 
-        return new MenuBuilder();
+        this.optionName = optionName;
+        this.action = null;
+        this.parent = parent;
+        this.opMode = opMode;
+
+        subOptions = new ArrayList<>();
+        isSubMenu = true;
 
     }
 
+    public MenuBuilder addMenuOption(String optionName, Runnable action) {
 
+        MenuBuilder option = new MenuBuilder(optionName, action, this, opMode);
 
+        if(!isSubMenu) {
 
+            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add menu option to a non-submenu", null));
+            opMode.requestOpModeStop();
 
+        }
 
+        subOptions.add(option);
 
+        return this;
 
+    }
 
+    public MenuBuilder addSubMenu(String optionName) {
 
+        MenuBuilder subMenu = new MenuBuilder(optionName, this, opMode);
 
+        if(!isSubMenu) {
 
+            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add submenu to a non-submenu", null));
+            opMode.requestOpModeStop();
 
+        }
 
+        subOptions.add(subMenu);
 
+        return subMenu;
 
+    }
 
+    public MenuBuilder endSubMenu() {
 
+        return parent;
 
+    }
 
+    public DriverInterface bindMenu() {
 
+        if(parent != null) {
 
+            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot bind to any menu other than root", null));
+            opMode.requestOpModeStop();
 
+        }
+
+        return new DriverInterface(opMode, this);
+
+    }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.core.templates;
+package org.firstinspires.ftc.teamcode.core.core;
 
-public abstract class Module {
+public abstract class System {
 
     protected final BaseOpMode opMode;
 
-    public Module(BaseOpMode opMode){
+    public System(BaseOpMode opMode){
 
         this.opMode = opMode;
 

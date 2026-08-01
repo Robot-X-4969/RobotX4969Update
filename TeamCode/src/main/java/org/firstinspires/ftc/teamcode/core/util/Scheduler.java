@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.core.util;
 
-import org.firstinspires.ftc.teamcode.core.templates.BaseOpMode;
+import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
 
 import java.util.HashMap;
 import java.util.Iterator;

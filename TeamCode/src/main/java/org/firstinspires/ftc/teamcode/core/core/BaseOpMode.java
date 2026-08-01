@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.core.templates;
+package org.firstinspires.ftc.teamcode.core.core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -14,7 +14,7 @@ public abstract class BaseOpMode extends OpMode {
 
     private final DriverStation driverStation;
     private final Scheduler scheduler;
-    private final ArrayList<Module> modules;
+    private final ArrayList<System> systems;
     private final ArrayList<LogEntry> errorLog;
     private final ArrayList<LogEntry> debugLog;
 
@@ -22,7 +22,7 @@ public abstract class BaseOpMode extends OpMode {
 
         driverStation = new DriverStation(gamepad1, gamepad2);
         scheduler = new Scheduler(this);
-        modules = new ArrayList<>();
+        systems = new ArrayList<>();
         errorLog = new ArrayList<>();
         debugLog = new ArrayList<>();
 
@@ -63,7 +63,7 @@ public abstract class BaseOpMode extends OpMode {
 
     }
 
-    public void sendData(){
+    public final void sendData(){
 
         for(LogEntry logEntry : debugLog){
 
@@ -82,7 +82,7 @@ public abstract class BaseOpMode extends OpMode {
 
     }
 
-    public void logData(LogEntry logEntry){
+    public final void logData(LogEntry logEntry){
 
         switch(logEntry.getEntryType()){
 
@@ -98,13 +98,13 @@ public abstract class BaseOpMode extends OpMode {
 
     }
 
-    public DriverStation getDriverStation(){
+    public final DriverStation getDriverStation(){
 
         return driverStation;
 
     }
 
-    public Scheduler getScheduler() {
+    public final Scheduler getScheduler() {
 
         return scheduler;
 

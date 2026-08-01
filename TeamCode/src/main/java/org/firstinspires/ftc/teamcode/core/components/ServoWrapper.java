@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.core.components;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-import org.firstinspires.ftc.teamcode.core.templates.BaseOpMode;
-import org.firstinspires.ftc.teamcode.core.templates.Component;
+import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
+import org.firstinspires.ftc.teamcode.core.core.Component;
 import org.firstinspires.ftc.teamcode.core.util.LogEntry;
 
 public final class ServoWrapper extends Component {

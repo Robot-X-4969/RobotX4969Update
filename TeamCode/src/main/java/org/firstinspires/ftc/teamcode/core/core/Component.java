@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.core.templates;
-
-import org.firstinspires.ftc.teamcode.core.util.Scheduler;
+package org.firstinspires.ftc.teamcode.core.core;
 
 public abstract class Component {
     protected final BaseOpMode opMode;

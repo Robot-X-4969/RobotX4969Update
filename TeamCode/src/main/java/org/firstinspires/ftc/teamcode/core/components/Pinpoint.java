@@ -5,8 +5,8 @@ import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.core.templates.BaseOpMode;
-import org.firstinspires.ftc.teamcode.core.templates.Component;
+import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
+import org.firstinspires.ftc.teamcode.core.core.Component;
 import org.firstinspires.ftc.teamcode.core.util.LogEntry;
 
 public final class Pinpoint extends Component {
