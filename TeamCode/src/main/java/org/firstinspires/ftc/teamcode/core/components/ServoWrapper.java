@@ -20,50 +20,26 @@ public final class ServoWrapper extends Component {
 
         this.servoMode = servoMode;
 
-        ServoImplEx tempServo;
-        CRServoImplEx tempCRServo;
-
         switch(servoMode) {
 
             case STANDARD:
-                try {
 
-                    tempServo = opMode.hardwareMap.get(ServoImplEx.class, componentName);
-
-                } catch (Exception e) {
-
-                    opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": failed to initialize component " + componentName , null));
-                    opMode.requestOpModeStop();
-                    tempServo = null;
-
-                }
-
-                servo = tempServo;
+                servo = getHardware(ServoImplEx.class);
                 crServo = null;
                 break;
 
             case CONTINUOUS:
-                try {
 
-                    tempCRServo = opMode.hardwareMap.get(CRServoImplEx.class, componentName);
-
-                } catch (Exception e) {
-
-                    opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": failed to initialize component " + componentName , null));
-                    opMode.requestOpModeStop();
-                    tempCRServo = null;
-
-                }
-
-                crServo = tempCRServo;
+                crServo = getHardware(CRServoImplEx.class);
                 servo = null;
                 break;
 
             default:
-                opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": invalid servo mode for " + componentName , null));
-                opMode.requestOpModeStop();
+
                 servo = null;
                 crServo = null;
+                opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": invalid servo mode for " + componentName , null));
+                opMode.requestOpModeStop();
                 break;
 
         }

@@ -25,21 +25,7 @@ public final class Pinpoint extends Component {
 
         super(opMode, componentName);
 
-        GoBildaPinpointDriver tempPinpoint;
-
-        try {
-
-            tempPinpoint = opMode.hardwareMap.get(GoBildaPinpointDriver.class, componentName);
-
-        } catch (Exception e) {
-
-            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + Pinpoint.class.getName() + ": failed to initialize component " + componentName , null));
-            opMode.requestOpModeStop();
-            tempPinpoint = null;
-
-        }
-
-        pinpoint = tempPinpoint;
+        pinpoint = getHardware(GoBildaPinpointDriver.class);
 
         if(pinpoint != null) {
 

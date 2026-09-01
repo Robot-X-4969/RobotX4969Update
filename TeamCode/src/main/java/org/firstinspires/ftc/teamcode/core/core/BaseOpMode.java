@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public abstract class BaseOpMode extends OpMode {
 
-    public enum EntryType {ERROR, DEBUG};
+    public enum EntryType {ERROR, DEBUG, WARNING, INFO};
 
     private final DriverStation driverStation;
     private final Scheduler scheduler;
@@ -35,6 +35,15 @@ public abstract class BaseOpMode extends OpMode {
 
     @Override
     public void init_loop() {
+
+        scheduler.pollEvents();
+        driverStation.update();
+
+        telemetry.clearAll();
+
+        telemetry.update();
+
+
 
     }
 

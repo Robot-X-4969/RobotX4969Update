@@ -6,50 +6,53 @@ import java.util.ArrayList;
 
 public final class MenuBuilder {
 
+    private final BaseOpMode opMode;
     private final MenuBuilder parent;
     private final String optionName;
     private final Runnable action;
-    private final ArrayList<MenuBuilder> subOptions;
-    private final BaseOpMode opMode;
+    private final ArrayList<MenuBuilder> builders;
 
-    private final boolean isSubMenu;
+    public MenuBuilder(BaseOpMode opMode, String optionName, Runnable action, MenuBuilder parent) {
 
-    public MenuBuilder(String optionName, Runnable action, MenuBuilder parent, BaseOpMode opMode) {
-
+        this.opMode = opMode;
+        this.parent = parent;
         this.optionName = optionName;
         this.action = action;
-        this.parent = parent;
-        this.opMode = opMode;
-
-        subOptions = new ArrayList<>();
-        isSubMenu = false;
+        this.builders = null;
 
     }
 
-    public MenuBuilder(String optionName, MenuBuilder parent, BaseOpMode opMode) {
+    public MenuBuilder(BaseOpMode opMode, String optionName, MenuBuilder parent) {
 
+        this.opMode = opMode;
+        this.parent = parent;
         this.optionName = optionName;
         this.action = null;
-        this.parent = parent;
-        this.opMode = opMode;
-
-        subOptions = new ArrayList<>();
-        isSubMenu = true;
+        this.builders = new ArrayList<>();
 
     }
 
-    public MenuBuilder addMenuOption(String optionName, Runnable action) {
+    public static MenuBuilder createMenu(BaseOpMode opMode){
 
-        MenuBuilder option = new MenuBuilder(optionName, action, this, opMode);
+        return new MenuBuilder(opMode, "Root Menu", null);
 
-        if(!isSubMenu) {
+    }
+
+    public MenuBuilder addAction(String optionName, Runnable action) {
+
+        if (isSubMenu()) {
+
+            MenuBuilder menuAction = new MenuBuilder(opMode, optionName, action, this);
+            builders.add(menuAction);
+
+            return this;
+
+        } else {
 
             opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add menu option to a non-submenu", null));
             opMode.requestOpModeStop();
 
         }
-
-        subOptions.add(option);
 
         return this;
 
@@ -57,60 +60,105 @@ public final class MenuBuilder {
 
     public MenuBuilder addSubMenu(String optionName) {
 
-        MenuBuilder subMenu = new MenuBuilder(optionName, this, opMode);
+        if (isSubMenu()) {
 
-        if(!isSubMenu) {
+            MenuBuilder subMenu = new MenuBuilder(opMode, optionName, this);
+            builders.add(subMenu);
+            return subMenu;
+
+        } else {
 
             opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add submenu to a non-submenu", null));
             opMode.requestOpModeStop();
 
         }
 
-        subOptions.add(subMenu);
-
-        return subMenu;
+        return this;
 
     }
 
     public MenuBuilder endSubMenu() {
 
-        return parent;
+        if(isSubMenu() && parent != null) {
 
-    }
+            return parent;
 
-    public DriverInterface bindMenu() {
+        }
 
-        if(parent != null) {
+        if(parent == null) {
 
-            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot bind to any menu other than root", null));
+            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot end submenu on root menu", null));
+            opMode.requestOpModeStop();
+
+        } else {
+
+            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot end submenu on a non-submenu", null));
             opMode.requestOpModeStop();
 
         }
 
-        return new DriverInterface(opMode, this);
+        return this;
 
     }
 
-    public String getOptionName() {
+    public DriverMenu buildMenu(){
 
-        return optionName;
+        if(parent == null) {
+
+            return new DriverMenu(opMode, this.compile());
+
+        } else {
+
+            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot build menu on a non-root menu", null));
+            opMode.requestOpModeStop();
+
+        }
+
+        return new DriverMenu(opMode, new ArrayList<>());
 
     }
 
-    public Runnable getAction() {
+    public ArrayList<MenuOption> compile(){
 
-        return action;
+        ArrayList<MenuOption> compiledOptions = new ArrayList<>();
+
+        if(builders == null) {
+
+            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot compile a non-submenu", null));
+            opMode.requestOpModeStop();
+
+            return compiledOptions;
+
+        }
+
+        for(MenuBuilder builder : this.builders){
+
+            if(builder.isSubMenu()){
+
+                MenuOption subMenuOption = new MenuOption(builder.opMode, builder.optionName);
+
+                ArrayList<MenuOption> subMenuOptions = builder.compile();
+
+                subMenuOption.getSubOptions().addAll(subMenuOptions);
+
+                compiledOptions.add(subMenuOption);
+
+            } else {
+
+                compiledOptions.add(new MenuOption(builder.opMode, builder.optionName, builder.action));
+
+            }
+
+        }
+
+        return compiledOptions;
 
     }
 
-    public ArrayList<MenuBuilder> getSubOptions() {
+    public boolean isSubMenu() {
 
-        return subOptions;
+        return builders != null;
 
     }
 
 }
-
-
-
-

@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
 import org.firstinspires.ftc.teamcode.core.core.Component;
-import org.firstinspires.ftc.teamcode.core.util.LogEntry;
-
 
 public final class MotorWrapper extends Component {
 
@@ -16,21 +14,7 @@ public final class MotorWrapper extends Component {
 
         super(opMode, componentName);
 
-        DcMotorEx tempMotor;
-
-        try {
-
-            tempMotor = opMode.hardwareMap.get(DcMotorEx.class, componentName);
-
-        } catch (Exception e) {
-
-            opMode.logData(new LogEntry(BaseOpMode.EntryType.ERROR, "[ERROR] in " + MotorWrapper.class.getName() + ": failed to initialize component " + componentName , null));
-            opMode.requestOpModeStop();
-            tempMotor = null;
-
-        }
-
-        motor = tempMotor;
+        motor = getHardware(DcMotorEx.class);
 
     }
 
