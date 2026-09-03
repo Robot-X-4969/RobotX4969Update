@@ -18,4 +18,6 @@ public abstract class System {
 
     public abstract void stop();
 
+    public void start() {
+    }
 }

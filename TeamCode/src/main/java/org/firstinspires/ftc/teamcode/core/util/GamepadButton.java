@@ -1,70 +1,109 @@
 package org.firstinspires.ftc.teamcode.core.util;
 
+/**
+ * Wraps a single gamepad button state to provide edge detection (just pressed / just released)
+ * and track pressing duration.
+ *
+ * @author John Daniher
+ * @author Gavin Farrell (update)
+ * @version 1.0
+ */
 public final class GamepadButton {
 
+    /** Stopwatch used to measure how long the button remains continuously pressed. */
     private final Clock clock;
+
+    /** The state (pressed/unpressed) of the button during the previous loop update. */
     private boolean lastState;
+
+    /** The state (pressed/unpressed) of the button during the current loop update. */
     private boolean currentState;
+
+    /** The duration (in nanoseconds) that the button was held during its most recent press cycle. */
     private long timePressed;
 
-    public GamepadButton() {
+    private long timeReleased;
 
-        clock = Clock.asStopwatch();
+    /**
+     * Constructs a new GamepadButton instance and initializes its internal stopwatch timer.
+     */
+    public GamepadButton() {clock = Clock.asStopwatch();}
 
-    }
-
+    /**
+     * Updates the current button state and manages the internal timer.
+     * <p>
+     * Should be called on every loop iteration with the raw boolean state from the hardware gamepad.
+     * </p>
+     *
+     * @param newState The current boolean state of the hardware button ({@code true} if pressed).
+     */
     public void update(boolean newState) {
-
-        if(newState != currentState && newState){
-
-            clock.start();
-
-        } else if(newState != currentState && !newState){
-
-            timePressed = clock.getElapsedNanoTime();
-            clock.reset();
-
-        }
 
         lastState = currentState;
         currentState = newState;
 
-    }
-
-    public boolean isPressed() {
-
-        return currentState;
+        updateTimePressedReleased();
 
     }
 
-    public boolean isReleased() {
+    /**
+     * Checks if the button is currently being held down.
+     *
+     * @return {@code true} if the button is pressed, {@code false} otherwise.
+     */
+    public boolean isPressed() {return currentState;}
 
-        return !currentState;
+    /**
+     * Checks if the button is currently not pressed.
+     *
+     * @return {@code true} if the button is released, {@code false} otherwise.
+     */
+    public boolean isReleased() {return !currentState;}
 
-    }
+    /**
+     * Checks if the button was pressed during the current frame (rising edge).
+     *
+     * @return {@code true} if the button transitioned from released to pressed this frame.
+     */
+    public boolean justPressed() {return currentState && !lastState;}
 
-    public boolean justPressed() {
+    /**
+     * Checks if the button was released during the current frame (falling edge).
+     *
+     * @return {@code true} if the button transitioned from pressed to released this frame.
+     */
+    public boolean justReleased() {return lastState && !currentState;}
 
-        return currentState && !lastState;
+    public void updateTimePressedReleased(){
 
-    }
+        if (justPressed()) {
 
-    public boolean justReleased(){
+            timePressed = 0;
+            timeReleased = clock.getElapsedMilliTime();
+            clock.reset();
+            clock.start();
 
-        return lastState && !currentState;
+        } else if (isPressed()){
 
-    }
+            timePressed = clock.getElapsedMilliTime();
 
-    public long getPressedDuration(){
+        } else if(justReleased()) {
 
-        if(currentState){
+            timeReleased = 0;
+            timePressed = clock.getElapsedMilliTime();
+            clock.reset();
+            clock.start();
 
-            return System.currentTimeMillis() - timePressed;
+        } else {
+
+            timeReleased = clock.getElapsedMilliTime();
 
         }
 
-        return 0;
-
     }
+
+    public long getTimePressed() {return timePressed;}
+
+    public long getTimeReleased() {return timeReleased;}
 
 }
