@@ -97,11 +97,15 @@ public final class DriverMenu {
                 currentMenu = selectedOption.getSubOptions();
 
                 currentIndex = 0;
+
             } else {
+
                 selectedOption.runAction();
+
             }
 
         } else if (opMode.getDriverStation().getGamepad1().getB().justPressed()) {
+
             currentMenu = menus.isEmpty() ? menuOptions : menus.pop();
 
             currentIndex = 0;

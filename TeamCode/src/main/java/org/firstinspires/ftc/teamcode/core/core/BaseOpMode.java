@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.core.core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.core.util.DriverMenu;
 import org.firstinspires.ftc.teamcode.core.util.DriverStation;
 import org.firstinspires.ftc.teamcode.core.util.LogEntry;
 import org.firstinspires.ftc.teamcode.core.util.Logger;
+import org.firstinspires.ftc.teamcode.core.util.MenuBuilder;
 import org.firstinspires.ftc.teamcode.core.util.Scheduler;
 
 import java.util.ArrayList;
@@ -33,8 +35,11 @@ public abstract class BaseOpMode extends OpMode {
     /** List of robot subsystem instances registered to this OpMode. */
     protected final ArrayList<System> systems;
 
+    protected DriverMenu driverMenu;
+
     /** Flag indicating whether debug mode is active (true) or inactive (false). */
     protected boolean debugMode = true;
+
 
     /**
      * Constructs a new BaseOpMode and initializes internal framework systems,
@@ -49,6 +54,15 @@ public abstract class BaseOpMode extends OpMode {
 
     }
 
+    public void initSystems(){
+
+    }
+
+    public void initDriverMenu(){
+
+    }
+
+
     /**
      * User-definable initialization step called once when the "INIT" button is pressed.
      * <p>
@@ -58,7 +72,10 @@ public abstract class BaseOpMode extends OpMode {
     @Override
     public void init() {
 
-        driverStation.setGamepads(gamepad1, gamepad2);
+        driverStation.getGamepad1().bind(gamepad1);
+        driverStation.getGamepad2().bind(gamepad2);
+
+        initDriverMenu();
 
         for(System system : systems){
 
@@ -85,6 +102,17 @@ public abstract class BaseOpMode extends OpMode {
             system.init_loop();
 
         }
+
+        if(driverMenu != null) {
+
+            driverMenu.updateMenu();
+            driverMenu.displayMenu();
+
+        }
+
+        logger.sendTelemetry();
+
+        telemetry.update();
 
     }
 
@@ -133,6 +161,8 @@ public abstract class BaseOpMode extends OpMode {
 
         logger.sendTelemetry();
 
+        telemetry.update();
+
     }
 
     /**
@@ -153,7 +183,7 @@ public abstract class BaseOpMode extends OpMode {
         logger.sendTelemetry();
 
     }
-    
+
     /**
      * Queues a new log entry for rendering on the next telemetry frame update based on its entry type.
      *

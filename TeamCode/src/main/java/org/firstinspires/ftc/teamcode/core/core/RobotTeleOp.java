@@ -8,30 +8,41 @@ public abstract class RobotTeleOp extends BaseOpMode {
 
     }
 
-    @Override
-    public void init() {
+    public void control_loop() {
 
-        super.init();
+        for(System system : systems) {
 
-    }
+            system.control_loop();
 
-    @Override
-    public void init_loop() {
-
-        super.init_loop();
+        }
 
     }
 
     @Override
     public void loop(){
 
-        super.loop();
+        telemetry.clearAll();
 
-    }
+        scheduler.pollEvents();
+        driverStation.update();
 
-    @Override
-    public void stop() {
+        control_loop();
 
+        if(driverStation.getGamepad1().getRightStickButton().justPressed()){
+
+            debugMode = !debugMode;
+
+        }
+
+        for(System system : systems){
+
+            system.loop();
+
+        }
+
+        logger.sendTelemetry();
+
+        telemetry.update();
 
     }
 

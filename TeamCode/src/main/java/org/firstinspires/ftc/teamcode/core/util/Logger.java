@@ -36,7 +36,7 @@ public final class Logger {
 
                 debugLog.poll();
 
-                opMode.telemetry.addData("[" + logEntry.getEntryType() + "]" + logEntry.getCaption(), logEntry.getMessage());
+                opMode.telemetry.addData("[" + logEntry.getEntryType() + "] " + logEntry.getCaption(), logEntry.getMessage());
 
             }
 
@@ -46,11 +46,9 @@ public final class Logger {
 
             historyLog.poll();
 
-            opMode.telemetry.log().add("[" + logEntry.getEntryType() + "]" + logEntry.getMessage());
+            opMode.telemetry.log().add("[" + logEntry.getEntryType() + "] " + logEntry.getMessage());
 
         }
-
-        opMode.telemetry.update();
 
     }
 }

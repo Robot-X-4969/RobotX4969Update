@@ -11,8 +11,9 @@ import com.qualcomm.robotcore.hardware.Gamepad;
  * @version 1.0
  */
 public final class GamepadWrapper {
+
     /** The underlying Qualcomm hardware Gamepad instance being wrapped. */
-    private final Gamepad gamepad;
+    private Gamepad gamepad;
 
     /** Button state tracker for D-Pad Up. */
     private final GamepadButton dpadUp;
@@ -80,10 +81,8 @@ public final class GamepadWrapper {
     /**
      * Constructs a new GamepadWrapper around a standard FTC Gamepad object.
      *
-     * @param gamepad The hardware {@link Gamepad} instance from an OpMode.
      */
-    public GamepadWrapper(Gamepad gamepad) {
-        this.gamepad = gamepad;
+    public GamepadWrapper() {
 
         dpadUp = new GamepadButton();
         dpadDown = new GamepadButton();
@@ -141,6 +140,17 @@ public final class GamepadWrapper {
 
         leftTriggerPressure = gamepad.left_trigger;
         rightTriggerPressure = gamepad.right_trigger;
+    }
+
+    /**
+     * Binds the GamepadWrapper to a specific FTC Gamepad instance.
+     *
+     * @param gamepad The FTC Gamepad to wrap and track.
+     */
+    public void bind(Gamepad gamepad) {
+
+        this.gamepad = gamepad;
+
     }
 
     /**

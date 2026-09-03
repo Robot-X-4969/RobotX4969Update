@@ -11,13 +11,10 @@ public abstract class System {
     }
 
     public abstract void init();
-
     public abstract void init_loop();
-
+    public abstract void start();
+    public abstract void control_loop();
     public abstract void loop();
-
     public abstract void stop();
 
-    public void start() {
-    }
 }

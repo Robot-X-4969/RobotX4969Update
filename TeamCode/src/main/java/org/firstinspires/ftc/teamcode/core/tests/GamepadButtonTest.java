@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
 
 @TeleOp(name = "Gamepad Button Test", group = "Tests")
-public class GamepadButtonTest extends BaseOpMode {
+public final class GamepadButtonTest extends BaseOpMode {
 
     @Override
     public void loop() {
