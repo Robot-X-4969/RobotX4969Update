@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.core.core;
+package org.firstinspires.ftc.teamcode.libs.core;
 
-import org.firstinspires.ftc.teamcode.core.util.LogEntry;
+import org.firstinspires.ftc.teamcode.libs.util.LogEntry;
 
 /**
  * Abstract base class representing a hardware component wrapper within the robot framework.
@@ -26,9 +26,11 @@ public abstract class Component {
      * @param opMode        The active {@link BaseOpMode} instance.
      * @param componentName The name of the device as registered in the FTC Driver Station hardware map.
      */
-    public Component(BaseOpMode opMode, String componentName) {
+    protected Component(BaseOpMode opMode, String componentName) {
+
         this.opMode = opMode;
         this.componentName = componentName;
+
     }
 
     /**
@@ -43,17 +45,24 @@ public abstract class Component {
      * @return The instantiated hardware device object, or {@code null} if initialization fails.
      */
     protected <T> T getHardware(Class<T> classType) {
+
         T hardwareComponent;
 
         try {
+
             hardwareComponent = opMode.hardwareMap.get(classType, componentName);
+
         } catch (Exception e) {
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + classType.getName() + ": failed to initialize component " + componentName, null));
+
+            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, " in " + classType.getName() + ": failed to initialize component " + componentName, null));
             opMode.requestOpModeStop();
 
             hardwareComponent = null;
+
         }
 
         return hardwareComponent;
+
     }
+
 }

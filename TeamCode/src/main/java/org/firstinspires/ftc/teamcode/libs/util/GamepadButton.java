@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.core.util;
+package org.firstinspires.ftc.teamcode.libs.util;
 
 /**
  * Wraps a single gamepad button state to provide edge detection (just pressed / just released)
@@ -79,24 +79,24 @@ public final class GamepadButton {
         if (justPressed()) {
 
             timePressed = 0;
-            timeReleased = clock.getElapsedMilliTime();
+            timeReleased = clock.getElapsedNanoTime();
             clock.reset();
             clock.start();
 
         } else if (isPressed()){
 
-            timePressed = clock.getElapsedMilliTime();
+            timePressed = clock.getElapsedNanoTime();
 
         } else if(justReleased()) {
 
             timeReleased = 0;
-            timePressed = clock.getElapsedMilliTime();
+            timePressed = clock.getElapsedNanoTime();
             clock.reset();
             clock.start();
 
         } else {
 
-            timeReleased = clock.getElapsedMilliTime();
+            timeReleased = clock.getElapsedNanoTime();
 
         }
 

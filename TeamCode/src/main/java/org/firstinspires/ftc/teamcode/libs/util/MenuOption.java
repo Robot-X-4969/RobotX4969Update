@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.core.util;
+package org.firstinspires.ftc.teamcode.libs.util;
 
-import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
+import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
 
 import java.util.ArrayList;
 
@@ -56,15 +56,6 @@ public final class MenuOption {
     }
 
     /**
-     * Gets the display name of this menu option.
-     *
-     * @return The option name string.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
      * Runs the assigned action for this menu option.
      * <p>
      * Logs an error message to the active OpMode if this option represents a sub-menu
@@ -96,6 +87,15 @@ public final class MenuOption {
         }
 
         return subOptions;
+    }
+
+    /**
+     * Gets the display name of this menu option.
+     *
+     * @return The option name string.
+     */
+    public String getName() {
+        return name;
     }
 
     /**

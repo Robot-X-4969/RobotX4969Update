@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.core.util;
-
-import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
+package org.firstinspires.ftc.teamcode.libs.util;
 
 /**
  * Represents an individual logging entry within the robot telemetry or diagnostic logging system.
@@ -17,6 +15,7 @@ public final class LogEntry {
      * Categorizes log entries by severity or purpose for telemetry output routing.
      */
     public enum EntryType {
+
         /** Critical error conditions displayed in the persistent telemetry log stream. */
         ERROR,
         /** Real-time diagnostic metrics displayed as temporary telemetry data lines. */
@@ -25,6 +24,7 @@ public final class LogEntry {
         WARNING,
         /** Informational messages. */
         INFO
+
     }
 
     /** The classification or severity level (e.g., INFO, WARNING, ERROR) of this log entry. */
@@ -44,9 +44,11 @@ public final class LogEntry {
      * @param caption   The label or title for the logged entry.
      */
     public LogEntry(EntryType entryType, String message, String caption) {
+
         this.entryType = entryType;
         this.message = message;
         this.caption = caption;
+
     }
 
     /**
@@ -75,4 +77,5 @@ public final class LogEntry {
     public String getCaption() {
         return this.caption;
     }
+
 }

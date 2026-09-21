@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.core.util;
+package org.firstinspires.ftc.teamcode.libs.util;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
  * stick and trigger reads.
  *
  * @author John Daniher
- * @version 1.0
+ * @author Gavin Farrell
+ * @version 2.0
  */
 public final class GamepadWrapper {
 
@@ -117,29 +118,35 @@ public final class GamepadWrapper {
      * </p>
      */
     public void update() {
-        dpadUp.update(gamepad.dpad_up);
-        dpadDown.update(gamepad.dpad_down);
-        dpadLeft.update(gamepad.dpad_left);
-        dpadRight.update(gamepad.dpad_right);
-        aButton.update(gamepad.a);
-        bButton.update(gamepad.b);
-        xButton.update(gamepad.x);
-        yButton.update(gamepad.y);
-        leftBumper.update(gamepad.left_bumper);
-        rightBumper.update(gamepad.right_bumper);
-        leftStickButton.update(gamepad.left_stick_button);
-        rightStickButton.update(gamepad.right_stick_button);
-        startButton.update(gamepad.start);
-        guideButton.update(gamepad.guide);
-        backButton.update(gamepad.back);
 
-        leftStickX = gamepad.left_stick_x;
-        leftStickY = gamepad.left_stick_y;
-        rightStickX = gamepad.right_stick_x;
-        rightStickY = gamepad.right_stick_y;
+        if(gamepad != null) {
 
-        leftTriggerPressure = gamepad.left_trigger;
-        rightTriggerPressure = gamepad.right_trigger;
+            dpadUp.update(gamepad.dpad_up);
+            dpadDown.update(gamepad.dpad_down);
+            dpadLeft.update(gamepad.dpad_left);
+            dpadRight.update(gamepad.dpad_right);
+            aButton.update(gamepad.a);
+            bButton.update(gamepad.b);
+            xButton.update(gamepad.x);
+            yButton.update(gamepad.y);
+            leftBumper.update(gamepad.left_bumper);
+            rightBumper.update(gamepad.right_bumper);
+            leftStickButton.update(gamepad.left_stick_button);
+            rightStickButton.update(gamepad.right_stick_button);
+            startButton.update(gamepad.start);
+            guideButton.update(gamepad.guide);
+            backButton.update(gamepad.back);
+
+            leftStickX = gamepad.left_stick_x;
+            leftStickY = gamepad.left_stick_y;
+            rightStickX = gamepad.right_stick_x;
+            rightStickY = gamepad.right_stick_y;
+
+            leftTriggerPressure = gamepad.left_trigger;
+            rightTriggerPressure = gamepad.right_trigger;
+
+        }
+
     }
 
     /**
@@ -147,11 +154,9 @@ public final class GamepadWrapper {
      *
      * @param gamepad The FTC Gamepad to wrap and track.
      */
-    public void bind(Gamepad gamepad) {
+    public void bind(Gamepad gamepad) {this.gamepad = gamepad;}
 
-        this.gamepad = gamepad;
-
-    }
+    public boolean isNull(){return gamepad == null;}
 
     /**
      * Gets the wrapped button state for D-Pad Up.

@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.core.components;
+package org.firstinspires.ftc.teamcode.libs.components;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
-import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
-import org.firstinspires.ftc.teamcode.core.core.Component;
+import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
+import org.firstinspires.ftc.teamcode.libs.core.Component;
 
 import java.util.ArrayList;
 

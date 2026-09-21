@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.core.components;
+package org.firstinspires.ftc.teamcode.libs.components;
 
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
-import org.firstinspires.ftc.teamcode.core.core.Component;
-import org.firstinspires.ftc.teamcode.core.util.LogEntry;
+import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
+import org.firstinspires.ftc.teamcode.libs.core.Component;
+import org.firstinspires.ftc.teamcode.libs.util.LogEntry;
 
 /**
  * A wrapper component for controlling standard and continuous-rotation (CR) servos in FTC OpModes.

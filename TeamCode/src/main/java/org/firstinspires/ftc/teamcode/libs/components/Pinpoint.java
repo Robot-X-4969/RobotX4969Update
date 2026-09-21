@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.core.components;
+package org.firstinspires.ftc.teamcode.libs.components;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
-import org.firstinspires.ftc.teamcode.core.core.Component;
-import org.firstinspires.ftc.teamcode.core.util.LogEntry;
+import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
+import org.firstinspires.ftc.teamcode.libs.core.Component;
+import org.firstinspires.ftc.teamcode.libs.util.LogEntry;
 
 /**
  * A wrapper component for managing the goBILDA Pinpoint Odometry Computer in FTC OpModes.
@@ -45,25 +45,31 @@ public final class Pinpoint extends Component {
             int xOffset,
             int yOffset
     ) {
+
         super(opMode, componentName);
 
         pinpoint = getHardware(GoBildaPinpointDriver.class);
 
         if (pinpoint != null) {
+
             pinpoint.setOffsets(xOffset, yOffset, DistanceUnit.CM);
             pinpoint.resetPosAndIMU();
             pinpoint.setEncoderResolution(podType);
             pinpoint.setEncoderDirections(xPodDirection, yPodDirection);
+
         }
+
     }
 
     /**
      * Logs current X position, Y position, and heading to the OpMode's diagnostic telemetry log.
      */
     public void getDebugValues() {
+
         opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getX()), "Pinpoint X: "));
         opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getY()), "Pinpoint Y:"));
         opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getHeading()), "Pinpoint Heading: "));
+
     }
 
     /**
@@ -101,4 +107,5 @@ public final class Pinpoint extends Component {
      * @param heading The new starting heading in degrees.
      */
     public void setStartingPose(double x, double y, double heading) {pinpoint.setPosition(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.DEGREES, heading));}
+
 }

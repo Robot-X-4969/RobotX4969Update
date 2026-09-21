@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.core.util;
+package org.firstinspires.ftc.teamcode.libs.util;
 
 /**
  * Represents a scheduled task or trigger within the robotics framework.
@@ -37,10 +37,18 @@ public final class Event {
      * @param repeating {@code true} if the event should automatically repeat; {@code false} for single execution.
      */
     public Event(String id, long millis, Runnable action, boolean repeating) {
+
         this.id = id;
         this.action = action;
         this.timer = Clock.asTimer(millis);
         this.repeating = repeating;
+
+    }
+
+    public String getID(){
+
+        return id;
+
     }
 
     /**
@@ -92,4 +100,5 @@ public final class Event {
     public void cancel() {
         cancelled = true;
     }
+
 }

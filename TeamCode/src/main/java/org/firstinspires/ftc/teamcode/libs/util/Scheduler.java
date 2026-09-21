@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.core.util;
+package org.firstinspires.ftc.teamcode.libs.util;
 
-import org.firstinspires.ftc.teamcode.core.core.BaseOpMode;
+import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,8 +30,10 @@ public final class Scheduler {
      * @param opMode The active {@link BaseOpMode} instance.
      */
     public Scheduler(BaseOpMode opMode) {
+
         this.eventMap = new HashMap<>();
         this.opMode = opMode;
+
     }
 
     /**
@@ -42,29 +44,47 @@ public final class Scheduler {
      * </p>
      */
     public void pollEvents() {
+
         Iterator<Event> iterator = eventMap.values().iterator();
 
         while (iterator.hasNext()) {
+
             Event event = iterator.next();
 
             if (event.isCancelled()) {
+
                 iterator.remove();
                 continue;
+
             }
 
             if (!event.getTimer().isTimerDone()) {
+
                 continue;
+
             }
 
             event.run();
 
+            if(opMode.isInDebugMode()){
+
+                opMode.logData(new LogEntry(LogEntry.EntryType.INFO, " event " + event.getID() + " has been executed", null));
+
+            }
+
             if (event.isRepeating()) {
+
                 event.getTimer().reset();
                 event.getTimer().start();
+
             } else {
+
                 iterator.remove();
+
             }
+
         }
+
     }
 
     /**
@@ -76,11 +96,17 @@ public final class Scheduler {
      * @param repeating {@code true} to re-trigger the event continuously; {@code false} for single execution.
      */
     public void scheduleEvent(String id, long millis, Runnable action, boolean repeating) {
+
         if (eventMap.get(id) == null) {
+
             eventMap.put(id, new Event(id, millis, action, repeating));
+
         } else {
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + Scheduler.class.getName() + ": failed to schedule event " + id + " because it already exists", null));
+
+            opMode.logData(new LogEntry(LogEntry.EntryType.WARNING, " in " + Scheduler.class.getName() + ": failed to schedule event " + id + " because it already exists", null));
+
         }
+
     }
 
     /**
@@ -90,9 +116,7 @@ public final class Scheduler {
      * @param millis The duration in milliseconds before the event triggers.
      * @param action The {@link Runnable} task to execute upon trigger.
      */
-    public void scheduleEvent(String id, long millis, Runnable action) {
-        scheduleEvent(id, millis, action, false);
-    }
+    public void scheduleEvent(String id, long millis, Runnable action) {scheduleEvent(id, millis, action, false);}
 
     /**
      * Cancels an active scheduled event by its identifier.
@@ -103,12 +127,19 @@ public final class Scheduler {
      * @param id The unique string identifier of the event to cancel.
      */
     public void cancelEvent(String id) {
+
         Event event = eventMap.get(id);
 
         if (event != null) {
+
             event.cancel();
+
         } else {
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + Scheduler.class.getName() + ": failed to cancel event " + id + " because it does not exist", null));
+
+            opMode.logData(new LogEntry(LogEntry.EntryType.WARNING, " in " + Scheduler.class.getName() + ": failed to cancel event " + id + " because it does not exist", null));
+
         }
+
     }
+
 }

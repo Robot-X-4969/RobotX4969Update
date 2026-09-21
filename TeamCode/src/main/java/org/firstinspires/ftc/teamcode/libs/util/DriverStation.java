@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.core.util;
-
-import com.qualcomm.robotcore.hardware.Gamepad;
+package org.firstinspires.ftc.teamcode.libs.util;
 
 /**
  * Manages the driver station gamepads for FTC robotics programs.
@@ -42,15 +40,21 @@ public final class DriverStation {
      * </p>
      */
     public void update() {
+
         gamepad1.update();
 
         if (dualGamepadMode) {
+
             gamepad2.update();
+
         }
 
         if (gamepad1.getBackButton().justPressed()) {
+
             dualGamepadMode = !dualGamepadMode;
+
         }
+
     }
 
     /**
