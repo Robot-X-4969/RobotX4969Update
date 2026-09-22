@@ -29,7 +29,7 @@ public final class PIDFController {
 
     }
 
-    public static PIDFController createPIController(BaseOpMode opMode,double kP, double kI) {
+    public static PIDFController createPIController(BaseOpMode opMode, double kP, double kI) {
 
         return new PIDFController(opMode, kP, kI, 0.0, 0.0);
 
@@ -50,6 +50,12 @@ public final class PIDFController {
     public static PIDFController createPIDFController(BaseOpMode opMode, double kP, double kI, double kD, double kF) {
 
         return new PIDFController(opMode, kP, kI, kD, kF);
+
+    }
+
+    public static PIDFController createPFController(BaseOpMode opMode, double kP, double kF) {
+
+        return new PIDFController(opMode, kP, 0, 0, kF);
 
     }
 
