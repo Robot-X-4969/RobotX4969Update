@@ -50,9 +50,9 @@ public final class MenuBuilderTest extends RobotTeleOp {
     }
 
     @Override
-    public ArrayList<Module> initModules() {
+    public void initModules() {
 
-        return new ArrayList<>();
+
 
     }
 

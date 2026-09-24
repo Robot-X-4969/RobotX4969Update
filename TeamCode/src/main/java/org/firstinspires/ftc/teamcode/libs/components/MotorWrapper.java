@@ -37,4 +37,8 @@ public final class MotorWrapper extends Component {
     public void setMotorMode(DcMotor.RunMode mode) {
         motor.setMode(mode);
     }
+
+    public double getRPM(){
+        return motor.getVelocity();
+    }
 }

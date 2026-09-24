@@ -90,6 +90,9 @@ public final class Logger {
 
         opMode.telemetry.update();
 
+        debugLog.clear();
+        historyLog.clear();
+
     }
 
 }

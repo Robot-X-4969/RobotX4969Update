@@ -15,7 +15,7 @@ public class MecanumDriveTest extends RobotTeleOp {
     }
 
     @Override
-    public ArrayList<Module> initModules() {
-        return null;
+    public void initModules() {
+
     }
 }

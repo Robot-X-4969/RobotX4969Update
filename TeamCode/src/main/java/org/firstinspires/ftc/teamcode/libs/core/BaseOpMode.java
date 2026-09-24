@@ -25,7 +25,8 @@ public abstract class BaseOpMode extends OpMode {
         scheduler = new Scheduler(this);
         logger = new Logger(this);
         driverMenu = initDriverMenu();
-        modules = initModules();
+        modules = new ArrayList<>();
+
 
         debugMode = false;
 
@@ -33,7 +34,7 @@ public abstract class BaseOpMode extends OpMode {
 
     public abstract DriverMenu initDriverMenu();
 
-    public abstract ArrayList<Module> initModules();
+    public abstract void initModules();
 
     protected void control_loop() {
 
@@ -47,6 +48,8 @@ public abstract class BaseOpMode extends OpMode {
 
     @Override
     public void init() {
+
+        initModules();
 
         driverStation.getGamepad1().bind(gamepad1);
         driverStation.getGamepad2().bind(gamepad2);
