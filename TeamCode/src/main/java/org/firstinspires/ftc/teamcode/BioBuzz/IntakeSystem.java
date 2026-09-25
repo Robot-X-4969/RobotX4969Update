@@ -40,12 +40,12 @@ public class IntakeSystem extends Module {
     protected void loop() {
 
         if(activated){
-
+            intakeMotor.setPower(1.0);
             servo1.setServoPower(1.0);
             servo2.setServoPower(1.0);
 
         } else {
-
+            intakeMotor.stop();
             servo1.stopServo();
             servo2.stopServo();
 
@@ -73,7 +73,7 @@ public class IntakeSystem extends Module {
 
     @Override
     protected void stop() {
-
+        intakeMotor.stop();
         servo1.stopServo();
         servo2.stopServo();
 
