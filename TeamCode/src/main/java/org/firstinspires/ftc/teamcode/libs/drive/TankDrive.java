@@ -23,6 +23,7 @@ public final class TankDrive extends Module {
     private final int maxMotorRPM;
     private double throttle;
     private double steering;
+    private boolean activated;
 
     private int targetLeftRPM;
     private int targetRightRPM;
@@ -76,7 +77,11 @@ public final class TankDrive extends Module {
 
         throttle = opMode.getDriverStation().getGamepad1().getLeftStickY();
         steering = opMode.getDriverStation().getGamepad1().getRightStickX();
+        if(opMode.getDriverStation().getGamepad1().getA().justPressed()){
 
+            activated = !activated;
+
+        }
     }
 
     @Override
@@ -87,10 +92,13 @@ public final class TankDrive extends Module {
 
         leftpidfController.setTargetValue(targetLeftRPM, frontLeftMotor.getRPM()/537.7 * 60);
         rightpidfController.setTargetValue(targetRightRPM, frontRightMotor.getRPM()/537.7 * 60);
-
-        frontLeftMotor.setPower(leftpidfController.calculateOutput(frontLeftMotor.getRPM()/537.7 * 60, 0.1));
-        frontRightMotor.setPower(rightpidfController.calculateOutput(frontRightMotor.getRPM()/537.7 * 60, 0.1));
-
+        if(!activated) {
+            frontLeftMotor.setPower(leftpidfController.calculateOutput(frontLeftMotor.getRPM() / 537.7 * 60, 0.1));
+            frontRightMotor.setPower(rightpidfController.calculateOutput(frontRightMotor.getRPM() / 537.7 * 60, 0.1));
+        } else {
+            frontLeftMotor.stop();
+            frontRightMotor.stop();
+        }
         opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(frontLeftMotor.getRPM()/537.7 * 60), "leftPID:"));
         opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(frontRightMotor.getRPM()/537.7 * 60), "rightPID:"));
         opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(throttle), "Throttle:"));

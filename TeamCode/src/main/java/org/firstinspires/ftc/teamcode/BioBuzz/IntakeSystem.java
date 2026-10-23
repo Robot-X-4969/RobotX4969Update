@@ -6,11 +6,16 @@ import org.firstinspires.ftc.teamcode.libs.components.MotorWrapper;
 import org.firstinspires.ftc.teamcode.libs.components.ServoWrapper;
 import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
 import org.firstinspires.ftc.teamcode.libs.core.Module;
+
 public class IntakeSystem extends Module {
 
     private final MotorWrapper intakeMotor;
     private final ServoWrapper servo1;
     private final ServoWrapper servo2;
+    private double throttle;
+
+    private boolean option;
+    private boolean safe;
 
     private boolean activated;
 
@@ -39,11 +44,10 @@ public class IntakeSystem extends Module {
     @Override
     protected void loop() {
 
-        if(activated){
-            intakeMotor.setPower(1.0);
+        if(safe){
+            intakeMotor.setPower(throttle);
             servo1.setServoPower(1.0);
             servo2.setServoPower(1.0);
-
         } else {
             intakeMotor.stop();
             servo1.stopServo();
@@ -55,11 +59,34 @@ public class IntakeSystem extends Module {
 
     @Override
     protected void control_loop() {
+       if(activated) {
+           if (opMode.getDriverStation().getGamepad1().getY().justPressed()) {
+               option = !option;
+               throttle = 0;
+           }
 
+           if (option) {
+               throttle = opMode.getDriverStation().getGamepad1().getLeftStickY();
+           } else if (!option) {
+               if (opMode.getDriverStation().getGamepad1().getDpadUp().justPressed()) {
+                   if (throttle != 1) {
+                       throttle += .1;
+                   }
+               }
+           }
+           if (opMode.getDriverStation().getGamepad1().getDpadDown().justPressed()) {
+               if (throttle != 0) {
+                   throttle -= .1;
+               }
+           }
+       }
         if(opMode.getDriverStation().getGamepad1().getA().justPressed()){
 
             activated = !activated;
 
+        }
+        if(opMode.getDriverStation().getGamepad1().getB().justPressed()) {
+            safe = !safe;
         }
 
     }

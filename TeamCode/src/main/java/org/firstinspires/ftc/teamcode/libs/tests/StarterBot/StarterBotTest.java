@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
 import org.firstinspires.ftc.teamcode.libs.drive.TankDrive;
 import org.firstinspires.ftc.teamcode.libs.util.DriverMenu;
 
-@TeleOp(name = "Intake System", group = "tests")
+@TeleOp(name = "StarterBotTest", group = "tests")
 public class StarterBotTest extends BaseOpMode {
     IntakeSystem intakeSystem;
     TankDrive tankDrive;
