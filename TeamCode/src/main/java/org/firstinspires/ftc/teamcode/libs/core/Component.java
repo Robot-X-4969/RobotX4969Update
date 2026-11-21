@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.libs.core;
 
+import org.firstinspires.ftc.teamcode.libs.util.FatalRobotException;
 import org.firstinspires.ftc.teamcode.libs.util.LogEntry;
 
 /**
@@ -50,14 +51,11 @@ public abstract class Component {
 
         try {
 
-            hardwareComponent = opMode.hardwareMap.get(classType, componentName);
+            hardwareComponent = opMode.getHardwareMap().get(classType, componentName);
 
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
 
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, " in " + classType.getName() + ": failed to initialize component " + componentName, null));
-            opMode.requestOpModeStop();
-
-            hardwareComponent = null;
+            throw new IllegalArgumentException(" in " + classType.getName() + ": failed to initialize component " + componentName, e);
 
         }
 

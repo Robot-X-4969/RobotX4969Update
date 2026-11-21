@@ -24,19 +24,29 @@ public final class ServoWrapper extends Component {
      * Defines the operational mode of the servo hardware.
      */
     public enum ServoMode {
-        /** Positional servo with angular control (0.0 to 1.0). */
+        /**
+         * Positional servo with angular control (0.0 to 1.0).
+         */
         STANDARD,
-        /** Continuous rotation servo with directional power control (-1.0 to 1.0). */
+        /**
+         * Continuous rotation servo with directional power control (-1.0 to 1.0).
+         */
         CONTINUOUS
     }
 
-    /** The standard positional servo hardware interface (null if mode is CONTINUOUS). */
+    /**
+     * The standard positional servo hardware interface (null if mode is CONTINUOUS).
+     */
     private final ServoImplEx servo;
 
-    /** The continuous rotation servo hardware interface (null if mode is STANDARD). */
+    /**
+     * The continuous rotation servo hardware interface (null if mode is STANDARD).
+     */
     private final CRServoImplEx crServo;
 
-    /** The operational mode assigned to this servo instance. */
+    /**
+     * The operational mode assigned to this servo instance.
+     */
     private final ServoMode servoMode;
 
     /**
@@ -47,11 +57,13 @@ public final class ServoWrapper extends Component {
      * @param servoMode     The operational mode (STANDARD or CONTINUOUS) for this servo.
      */
     public ServoWrapper(BaseOpMode opMode, String componentName, ServoMode servoMode) {
+
         super(opMode, componentName);
 
         this.servoMode = servoMode;
 
         switch (servoMode) {
+
             case STANDARD:
                 servo = getHardware(ServoImplEx.class);
                 crServo = null;
@@ -65,10 +77,11 @@ public final class ServoWrapper extends Component {
             default:
                 servo = null;
                 crServo = null;
-                opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": invalid servo mode for " + componentName, null));
-                opMode.requestOpModeStop();
-                break;
+
+                throw new RuntimeException("in " + ServoWrapper.class.getName() + ": invalid servo mode specified for component " + componentName);
+
         }
+
     }
 
     /**
@@ -80,11 +93,17 @@ public final class ServoWrapper extends Component {
      * @param position Target position normalized between 0.0 and 1.0.
      */
     public void setServoPosition(double position) {
+
         if (servoMode == ServoMode.STANDARD) {
+
             servo.setPosition(position);
+
         } else {
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": attempted to set the position of the continuous rotation servo " + componentName, null));
+
+            throw new RuntimeException("in " + ServoWrapper.class.getName() + ": attempted to set the position of the continuous rotation servo " + componentName);
+
         }
+
     }
 
     /**
@@ -96,13 +115,17 @@ public final class ServoWrapper extends Component {
      * @return Target position normalized between 0.0 and 1.0, or 0.0 on error.
      */
     public double getServoPosition() {
+
         if (servoMode == ServoMode.STANDARD) {
+
             return servo.getPosition();
+
         } else {
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": attempted to get the position of the continuous rotation servo " + componentName, null));
+
+            throw new RuntimeException("in " + ServoWrapper.class.getName() + ": attempted to get the position of the continuous rotation servo " + componentName);
+
         }
 
-        return 0.0;
     }
 
     /**
@@ -114,11 +137,17 @@ public final class ServoWrapper extends Component {
      * @param power Target power level from -1.0 (full reverse) to 1.0 (full forward).
      */
     public void setServoPower(double power) {
+
         if (servoMode == ServoMode.CONTINUOUS) {
+
             crServo.setPower(power);
+
         } else {
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": attempted to set the power of the standard servo " + componentName, null));
+
+            throw new RuntimeException("in " + ServoWrapper.class.getName() + ": attempted to set the power of the standard servo " + componentName);
+
         }
+
     }
 
     /**
@@ -128,11 +157,17 @@ public final class ServoWrapper extends Component {
      * </p>
      */
     public void stopServo() {
+
         if (servoMode == ServoMode.CONTINUOUS) {
+
             crServo.setPower(0.0);
+
         } else {
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + ServoWrapper.class.getName() + ": attempted to stop the standard servo " + componentName, null));
+
+            throw new RuntimeException("in " + ServoWrapper.class.getName() + ": attempted to stop the standard servo " + componentName);
+
         }
+
     }
 
     /**
@@ -142,9 +177,15 @@ public final class ServoWrapper extends Component {
      */
     public void setReversed(boolean reversed) {
         if (servoMode == ServoMode.STANDARD) {
+
             servo.setDirection(reversed ? ServoImplEx.Direction.REVERSE : ServoImplEx.Direction.FORWARD);
+
         } else {
+
             crServo.setDirection(reversed ? CRServoImplEx.Direction.REVERSE : CRServoImplEx.Direction.FORWARD);
+
         }
+
     }
+
 }

@@ -51,6 +51,14 @@ public final class LogEntry {
 
     }
 
+    public LogEntry(EntryType entryType, String message) {
+
+        this.entryType = entryType;
+        this.message = message;
+        this.caption = "n/a";
+
+    }
+
     /**
      * Gets the entry type classification for this log item.
      *

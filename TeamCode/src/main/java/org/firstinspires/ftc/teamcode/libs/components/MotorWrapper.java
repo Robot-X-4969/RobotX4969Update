@@ -11,27 +11,37 @@ public final class MotorWrapper extends Component {
     private final DcMotorEx motor;
 
     public MotorWrapper(BaseOpMode opMode, String componentName) {
+
         super(opMode, componentName);
 
         motor = getHardware(DcMotorEx.class);
+
     }
 
     public void setPower(double power) {
+
         motor.setPower(Math.max(-1.0, Math.min(1.0, power)));
+
     }
 
     public void stop() {
+
         motor.setPower(0.0);
+
     }
 
     public void setReverse(boolean reverse) {
+
         motor.setDirection(reverse ? DcMotor.Direction.REVERSE : DcMotor.Direction.FORWARD);
+
     }
 
     public void setTimedRotation(double power, long millis) {
+
         setPower(power);
 
         opMode.getScheduler().scheduleEvent("stop" + componentName, millis, this::stop);
+
     }
 
     public void setMotorMode(DcMotor.RunMode mode) {
@@ -41,4 +51,5 @@ public final class MotorWrapper extends Component {
     public double getRPM(){
         return motor.getVelocity();
     }
+
 }

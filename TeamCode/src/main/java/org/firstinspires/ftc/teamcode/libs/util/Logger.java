@@ -25,6 +25,8 @@ public final class Logger {
     /** Stores non-critical debug messages intended for diagnostic output. */
     private final ArrayList<LogEntry> debugLog;
 
+    private final int MAX_HISTORY_LOG_SIZE = 20;
+
     /**
      * Constructs a {@code Logger} instance associated with a specific OpMode.
      *
@@ -47,6 +49,12 @@ public final class Logger {
 
         if(logEntry.getEntryType() == LogEntry.EntryType.ERROR || logEntry.getEntryType() == LogEntry.EntryType.WARNING || logEntry.getEntryType() == LogEntry.EntryType.INFO){
 
+            if(historyLog.size() >= MAX_HISTORY_LOG_SIZE){
+
+                historyLog.remove(0);
+
+            }
+
             historyLog.add(logEntry);
 
         } else {
@@ -64,12 +72,12 @@ public final class Logger {
 
         if(opMode.isInDebugMode()){
 
-            opMode.telemetry.addLine("");
-            opMode.telemetry.addLine("============== DEBUG LOG ================");
+            opMode.getTelemetry().addLine("");
+            opMode.getTelemetry().addLine("============== DEBUG LOG ================");
 
             for (LogEntry logEntry : debugLog) {
 
-                opMode.telemetry.addData("[" + logEntry.getEntryType() + "] " + logEntry.getCaption(), logEntry.getMessage());
+                opMode.getTelemetry().addData("[" + logEntry.getEntryType() + "] " + logEntry.getCaption(), logEntry.getMessage());
 
             }
 
@@ -77,21 +85,20 @@ public final class Logger {
 
         if(!historyLog.isEmpty()){
 
-            opMode.telemetry.addLine("");
-            opMode.telemetry.addLine("============== HISTORY LOG ==============");
+            opMode.getTelemetry().addLine("");
+            opMode.getTelemetry().addLine("============== HISTORY LOG ==============");
 
             for (LogEntry logEntry : historyLog) {
 
-                opMode.telemetry.addLine("[" + logEntry.getEntryType() + "] " + logEntry.getMessage());
+                opMode.getTelemetry().addLine("[" + logEntry.getEntryType() + "] " + logEntry.getMessage());
 
             }
 
         }
 
-        opMode.telemetry.update();
+        opMode.getTelemetry().update();
 
         debugLog.clear();
-        historyLog.clear();
 
     }
 

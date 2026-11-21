@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.libs.tests.StarterBot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.libs.core.RobotTeleOp;
 import org.firstinspires.ftc.teamcode.libs.drive.TankDrive;
 import org.firstinspires.ftc.teamcode.libs.util.DriverMenu;
 

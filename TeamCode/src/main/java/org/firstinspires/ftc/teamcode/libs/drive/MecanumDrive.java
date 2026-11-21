@@ -2,61 +2,60 @@ package org.firstinspires.ftc.teamcode.libs.drive;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 
-import org.firstinspires.ftc.teamcode.libs.components.MotorWrapper;
 import org.firstinspires.ftc.teamcode.libs.components.Pinpoint;
 import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
 import org.firstinspires.ftc.teamcode.libs.core.Module;
 
+public class MecanumDrive extends Module {
 
-public final class MecanumDrive extends Module {
-
-    private final MotorWrapper frontLeftMotor;
-    private final MotorWrapper frontRightMotor;
-    private final MotorWrapper backLeftMotor;
-    private final MotorWrapper backRightMotor;
+    //private final MotorWrapper frontLeft;
+    //private final MotorWrapper frontRight;
+    //private final MotorWrapper backLeft;
+    //private final MotorWrapper backRight;
     private final Pinpoint pinpoint;
 
-    private boolean isOrientationMode;
+    private boolean isOrientationMode = false;
 
-    public MecanumDrive(BaseOpMode opMode) {
+    private double x;
+    private double y;
+    private double r;
+
+    public MecanumDrive(RobotTeleOp opMode) {
 
         super(opMode);
 
-        frontLeftMotor = new MotorWrapper(opMode, "frontLeftMotor");
-        frontRightMotor = new MotorWrapper(opMode,"frontRightMotor");
-        backLeftMotor = new MotorWrapper(opMode,"backLeftMotor");
-        backRightMotor = new MotorWrapper(opMode,"backRightMotor");
+        //frontLeft = new MotorWrapper(opMode, "frontLeft");
+        //frontRight = new MotorWrapper(opMode,"frontRight");
+        //backLeft = new MotorWrapper(opMode, "backLeft");
+        //backRight = new MotorWrapper(opMode, "backRight");
 
-        pinpoint = new Pinpoint(opMode, "pinpoint", GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD, GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD, 0, 0);
-
-        frontLeftMotor.setReverse(false);
-        backLeftMotor.setReverse(false);
-        frontRightMotor.setReverse(false);
-        backRightMotor.setReverse(false);
-
-    }
-
-    @Override
-    public void init() {
-
-
+        pinpoint = new Pinpoint(
+                opMode,
+                "pinpoint",
+                GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD,
+                GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                0,
+                0
+                );
 
     }
 
     @Override
-    public void init_loop() {
-
-
+    protected void init_loop() {
 
     }
 
     @Override
-    public void start() {
+    protected void loop() {
 
-    }
+        control_loop();
 
-    @Override
-    public void control_loop() {
+        if(opMode.isInDebugMode()){
+
+            pinpoint.getDebugValues();
+
+        }
 
 
 
@@ -64,18 +63,32 @@ public final class MecanumDrive extends Module {
     }
 
     @Override
-    public void loop() {
+    protected void control_loop() {
+
+        if(opMode.getDriverStation().getGamepad1().getY().isPressed()){
+
+            isOrientationMode = !isOrientationMode;
+
+        }
+
+        x = opMode.getDriverStation().getGamepad1().getLeftStickX();
+        y = opMode.getDriverStation().getGamepad1().getLeftStickY();
+        r = opMode.getDriverStation().getGamepad1().getRightStickX();
 
     }
 
     @Override
-    public void stop() {
-
-        frontLeftMotor.stop();
-        backLeftMotor.stop();
-        frontRightMotor.stop();
-        backRightMotor.stop();
+    protected void init() {
 
     }
 
+    @Override
+    protected void start() {
+
+    }
+
+    @Override
+    protected void stop() {
+
+    }
 }
