@@ -86,9 +86,9 @@ public final class Clock {
 
     }
 
-    public long getElapsedMilliTime() {return getElapsedNanoTime() / 1_000_000;}
+    public double getElapsedMilliTime() {return (double) getElapsedNanoTime() / 1_000_000.0;}
 
-    public long getElapsedSecondsTime() {return getElapsedMilliTime() / 1_000;}
+    public double getElapsedSecondsTime() {return (double) getElapsedNanoTime() / 1_000_000_000.0;}
 
     public long getRemainingTime() {
 

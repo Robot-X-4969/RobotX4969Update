@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.libs.core;
 
-import org.firstinspires.ftc.teamcode.libs.util.FatalRobotException;
-import org.firstinspires.ftc.teamcode.libs.util.LogEntry;
-
 /**
  * Abstract base class representing a hardware component wrapper within the robot framework.
  * <p>

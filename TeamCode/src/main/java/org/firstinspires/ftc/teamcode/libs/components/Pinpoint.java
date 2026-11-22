@@ -72,6 +72,12 @@ public final class Pinpoint extends Component {
 
     }
 
+    public void update() {
+
+        pinpoint.update();
+
+    }
+
     /**
      * Gets the current estimated X coordinate of the robot.
      *
@@ -96,7 +102,7 @@ public final class Pinpoint extends Component {
      * @return The heading angle in degrees.
      */
     public double getHeading() {
-        return pinpoint.getPosition().getHeading(AngleUnit.DEGREES);
+        return pinpoint.getPosition().getHeading(AngleUnit.RADIANS);
     }
 
     /**

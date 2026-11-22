@@ -20,9 +20,9 @@ public final class GamepadButton {
     private boolean currentState;
 
     /** The duration (in nanoseconds) that the button was held during its most recent press cycle. */
-    private long timePressed;
+    private double timePressed;
 
-    private long timeReleased;
+    private double timeReleased;
 
     /**
      * Constructs a new GamepadButton instance and initializes its internal stopwatch timer.
@@ -79,31 +79,31 @@ public final class GamepadButton {
         if (justPressed()) {
 
             timePressed = 0;
-            timeReleased = clock.getElapsedNanoTime();
+            timeReleased = clock.getElapsedSecondsTime();
             clock.reset();
             clock.start();
 
         } else if (isPressed()){
 
-            timePressed = clock.getElapsedNanoTime();
+            timePressed = clock.getElapsedSecondsTime();
 
         } else if(justReleased()) {
 
             timeReleased = 0;
-            timePressed = clock.getElapsedNanoTime();
+            timePressed = clock.getElapsedSecondsTime();
             clock.reset();
             clock.start();
 
         } else {
 
-            timeReleased = clock.getElapsedNanoTime();
+            timeReleased = clock.getElapsedSecondsTime();
 
         }
 
     }
 
-    public long getTimePressed() {return timePressed;}
+    public double getTimePressed() {return timePressed;}
 
-    public long getTimeReleased() {return timeReleased;}
+    public double getTimeReleased() {return timeReleased;}
 
 }

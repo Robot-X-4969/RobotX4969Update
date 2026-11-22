@@ -9,16 +9,18 @@ import org.firstinspires.ftc.teamcode.libs.util.LogEntry;
 import org.firstinspires.ftc.teamcode.libs.util.Scheduler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface BaseOpMode {
 
     DriverMenu initDriverMenu();
-    ArrayList<Module> initModules();
+
+    HashMap<String, Module> initModules();
     HardwareMap getHardwareMap();
     void logData(LogEntry logEntry);
     DriverStation getDriverStation();
     Scheduler getScheduler();
-    ArrayList<Module> getModules();
+    HashMap<String, Module> getModules();
     Telemetry getTelemetry();
     boolean isInDebugMode();
 

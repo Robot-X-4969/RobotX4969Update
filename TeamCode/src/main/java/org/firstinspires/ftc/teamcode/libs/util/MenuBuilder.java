@@ -96,7 +96,6 @@ public final class MenuBuilder {
         } else {
 
             opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add menu option to a non-submenu", null));
-            opMode.requestOpModeStop();
 
         }
 
@@ -121,7 +120,6 @@ public final class MenuBuilder {
         } else {
 
             opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add submenu to a non-submenu", null));
-            opMode.requestOpModeStop();
 
         }
 

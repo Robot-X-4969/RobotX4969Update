@@ -12,8 +12,6 @@ public final class PIDFController {
     private double integral;
     private double previousError;
     private double targetValue;
-    private boolean initialTargetValueSet;
-
 
     private PIDFController(BaseOpMode opMode, double kP, double kI, double kD, double kF) {
 
@@ -61,40 +59,30 @@ public final class PIDFController {
 
     public double calculateOutput(double currentValue, double deltaTime) {
 
-        if (initialTargetValueSet) {
+        double error = targetValue - currentValue;
 
-            double error = targetValue - currentValue;
+        integral += error * deltaTime;
 
-            integral += error * deltaTime;
+        double F = kF * targetValue;
+        double P = kP * error;
+        double I = kI * integral;
+        double D = deltaTime > 0 ? kD * (error - previousError) / deltaTime : 0;
 
-            double F = this.kF * targetValue;
-            double P = this.kP * error;
-            double I = this.kI * integral;
-            double D = this.kD * (error - previousError) / deltaTime;
+        previousError = error;
 
-            previousError = error;
-
-            return F + P + I + D;
-
-        }
-
-        opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "in " + PIDFController.class.getName() + ": target value has not been set before calling calculateOutput", null));
-        opMode.requestOpModeStop();
-
-        return 0;
+        return F + P + I + D;
 
     }
 
-    public void setTargetValue(double targetValue, double currentValue){
-
-        initialTargetValueSet = true;
+    public void setTargetValue(double targetValue, double currentValue) {
 
         this.targetValue = targetValue;
 
-        integral = 0;
-
         previousError = targetValue - currentValue;
+
+        integral = 0;
 
     }
 
 }
+
