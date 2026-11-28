@@ -102,7 +102,9 @@ public final class Pinpoint extends Component {
      * @return The heading angle in degrees.
      */
     public double getHeading(AngleUnit angleUnit) {
+
         return pinpoint.getPosition().getHeading(angleUnit);
+
     }
 
 

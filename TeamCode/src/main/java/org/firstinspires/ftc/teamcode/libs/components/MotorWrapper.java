@@ -50,7 +50,15 @@ public final class MotorWrapper extends Component {
 
     public void stop() {
 
-        motor.setPower(0.0);
+        if(motor.getMode() == DcMotor.RunMode.RUN_USING_ENCODER){
+
+            motor.setVelocity(0.0);
+
+        } else if (motor.getMode() == DcMotor.RunMode.RUN_WITHOUT_ENCODER){
+
+            motor.setPower(0.0);
+
+        }
 
     }
 

@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.libs.drive;
 
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.libs.components.MotorWrapper;
 import org.firstinspires.ftc.teamcode.libs.components.Pinpoint;
 import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
@@ -14,42 +15,42 @@ public final class MecanumDrive extends Module {
     private final MotorWrapper backLeft;
     private final MotorWrapper backRight;
     private final Pinpoint pinpoint;
-
+    private double driverOffset;
     private boolean isOrientationMode = false;
-
     private double x;
     private double y;
     private double r;
 
-    public MecanumDrive(BaseOpMode opMode) {
+    public MecanumDrive(BaseOpMode opMode, Pinpoint pinpoint) {
 
         super(opMode);
 
-        frontLeft = new MotorWrapper(opMode, "frontLeft");
-        frontRight = new MotorWrapper(opMode,"frontRight");
-        backLeft = new MotorWrapper(opMode, "backLeft");
-        backRight = new MotorWrapper(opMode, "backRight");
+        this.pinpoint = pinpoint;
 
-        pinpoint = new Pinpoint(
-                opMode,
-                "pinpoint",
-                GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD,
-                GoBildaPinpointDriver.EncoderDirection.FORWARD,
-                GoBildaPinpointDriver.EncoderDirection.FORWARD,
-                0,
-                0
-        );
-        pinpoint.setStartingPose(0, 0, 0);
+        frontLeft = new MotorWrapper(opMode, "frontLeft", 0.0);
+        frontRight = new MotorWrapper(opMode,"frontRight", 0.0);
+        backLeft = new MotorWrapper(opMode, "backLeft", 0.0);
+        backRight = new MotorWrapper(opMode, "backRight", 0.0);
 
     }
 
     @Override
     protected void init() {
 
+        backLeft.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeft.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMotorMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     @Override
     protected void init_loop() {
+
+    }
+
+    @Override
+    protected void start() {
 
     }
 
@@ -73,7 +74,7 @@ public final class MecanumDrive extends Module {
 
         pinpoint.update();
 
-        double globalAngle = pinpoint.getHeading();
+        double globalAngle = pinpoint.getHeading(AngleUnit.RADIANS) + driverOffset;
 
         double xPrime;
         double yPrime;
@@ -106,11 +107,6 @@ public final class MecanumDrive extends Module {
     }
 
     @Override
-    protected void start() {
-
-    }
-
-    @Override
     protected void stop() {
 
         frontLeft.stop();
@@ -120,9 +116,9 @@ public final class MecanumDrive extends Module {
 
     }
 
-    public Pinpoint getPinpoint() {
+    public void setDriverOffset(double driverOffset){
 
-        return pinpoint;
+        this.driverOffset = driverOffset;
 
     }
 

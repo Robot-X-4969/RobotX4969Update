@@ -32,8 +32,8 @@ public final class TankDrive extends Module {
 
         super(opMode);
 
-        this.frontLeftMotor = new MotorWrapper(opMode, "frontLeftMotor");
-        this.frontRightMotor = new MotorWrapper(opMode,"frontRightMotor");
+        this.frontLeftMotor = new MotorWrapper(opMode, "frontLeftMotor", 0.0);
+        this.frontRightMotor = new MotorWrapper(opMode,"frontRightMotor", 0.0);
         this.backLeftMotor = null;
         this.backRightMotor = null;
 

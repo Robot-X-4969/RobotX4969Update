@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.libs.components.ServoWrapper;
 import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
 import org.firstinspires.ftc.teamcode.libs.core.Module;
 
+import java.util.HashMap;
+
 public class Turret extends Module {
 
     private final ServoWrapper turretServo;
@@ -18,8 +20,8 @@ public class Turret extends Module {
     private final MotorWrapper flywheelMotor2;
     private final Limelight limelight;
     private final Pinpoint pinpoint;
-    private Pose2D robotPose;
 
+    private HashMap<Integer, Pose2D> targets;
     private Pose2D currentTarget;
 
     private double lastPosX;
@@ -48,13 +50,26 @@ public class Turret extends Module {
 
         turretServo.setServoPosition(0.5);
 
-        lastPosX = robotPose.getX(DistanceUnit.CM);
-        lastPosZ = robotPose.getY(DistanceUnit.CM);
+        lastPosX = pinpoint.getX(DistanceUnit.CM);
+        lastPosZ = pinpoint.getY(DistanceUnit.CM);
+
+        flywheelMotor1.setPIDFCoefficients(0.0, 0.0, 0.0, 0.0);
+        flywheelMotor2.setPIDFCoefficients(0.0, 0.0, 0.0, 0.0);
 
     }
 
     @Override
     protected void init_loop() {
+
+    }
+
+    @Override
+    protected void start() {
+
+    }
+
+    @Override
+    protected void control_loop() {
 
     }
 
@@ -119,24 +134,11 @@ public class Turret extends Module {
     }
 
     @Override
-    protected void control_loop() {
-
-
-    }
-
-    @Override
-    protected void start() {
-
-    }
-
-    @Override
     protected void stop() {
 
-    }
-
-    public void setStartingRobotPose(Pose2D robotPose) {
-
-        pinpoint.setStartingPose(robotPose);
+        flywheelMotor1.stop();
+        flywheelMotor2.stop();
+        turretServo.setServoPosition(0.5);
 
     }
 

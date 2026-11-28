@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.libs.core.RobotTeleOp;
 import org.firstinspires.ftc.teamcode.libs.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.libs.util.DriverMenu;
 import org.firstinspires.ftc.teamcode.libs.util.MenuBuilder;
+import org.firstinspires.ftc.teamcode.robots.BioBuzz2627.SingleTurret.modules.Turret;
 
 import java.util.HashMap;
 
@@ -38,27 +39,40 @@ public class SingleTurretTeleOp extends RobotTeleOp {
                 .addSubMenu("Starting Position")
                     .addAction("Red Left", () -> {
 
+                        ((MecanumDrive) modules.get("drive")).setDriverOffset(90.0);
+
                     })
                     .addAction("Red Right", () -> {
+
+                        ((MecanumDrive) modules.get("drive")).setDriverOffset(90.0);
 
                     })
                     .addAction("Blue Left", () -> {
 
+                        ((MecanumDrive) modules.get("drive")).setDriverOffset(-90.0);
+
                     })
                     .addAction("Blue Right", () -> {
+
+                        ((MecanumDrive) modules.get("drive")).setDriverOffset(-90.0);
 
                     })
                 .endSubMenu()
                 .buildMenu();
+
     }
 
     @Override
     public void initModules() {
 
-        HashMap <String, Module> modules = new HashMap<>();
-        MecanumDrive mecanumDrive = new MecanumDrive(this);
+        MecanumDrive mecanumDrive = new MecanumDrive(this, pinpoint);
+        Turret turret = new Turret(this, pinpoint);
+
+
 
         modules.put("drive", mecanumDrive);
+        modules.put("turret", turret);
+
 
     }
 
