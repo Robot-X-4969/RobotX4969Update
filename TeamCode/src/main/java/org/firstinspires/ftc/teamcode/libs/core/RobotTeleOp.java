@@ -23,6 +23,7 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
     protected final Clock stopwatch;
     protected double deltaTime;
     protected boolean debugMode;
+    protected boolean errorMode;
 
     protected RobotTeleOp() {
 
@@ -31,16 +32,15 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
         logger = new Logger(this);
         stopwatch = Clock.asStopwatch();
         deltaTime = 0;
-
-        modules = initModules();
-        driverMenu = initDriverMenu();
-
         debugMode = false;
+
+        modules = new HashMap<>();
+        driverMenu = initDriverMenu();
 
     }
 
     public abstract DriverMenu initDriverMenu();
-    public abstract HashMap<String, Module> initModules();
+    public abstract void initModules();
 
     protected void control_loop() {
 
@@ -57,13 +57,15 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
 
         try{
 
+            initModules();
+
             stopwatch.reset();
             stopwatch.start();
 
             driverStation.getGamepad1().bind(gamepad1);
             driverStation.getGamepad2().bind(gamepad2);
 
-            for(Module module : modules){
+            for(Module module : modules.values()){
 
                 module.init();
 
@@ -90,7 +92,7 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
             driverStation.update();
             scheduler.pollEvents();
 
-            for(Module module : modules){
+            for(Module module : modules.values()){
 
                 module.init_loop();
 
@@ -124,7 +126,7 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
             driverStation.update();
             scheduler.pollEvents();
 
-            for(Module module : modules){
+            for(Module module : modules.values()){
 
                 module.start();
 
@@ -144,6 +146,9 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
     @Override
     public void loop() {
 
+        logData(new LogEntry(LogEntry.EntryType.DEBUG, " " + deltaTime, "Delta:"));
+        logData(new LogEntry(LogEntry.EntryType.DEBUG, " " + driverStation.getGamepad1().getLeftStickY(), "Joystick:"));
+
         try{
 
             deltaTime = stopwatch.getElapsedSecondsTime();
@@ -155,13 +160,13 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
 
             control_loop();
 
-            for(Module module : modules){
+            for(Module module : modules.values()){
 
                 module.control_loop();
 
             }
 
-            for(Module module : modules){
+            for(Module module : modules.values()){
 
                 module.loop();
 
@@ -181,10 +186,11 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
     public void stop() {
 
         try{
+
             driverStation.update();
             scheduler.pollEvents();
 
-            for(Module module : modules){
+            for(Module module : modules.values()){
 
                 module.stop();
 
@@ -202,25 +208,28 @@ public abstract class RobotTeleOp extends OpMode implements BaseOpMode {
 
     private void handleException(Exception e) {
 
+        errorMode = true;
+
         String msg = e.getMessage() != null ? e.getMessage().split("\n")[0] : e.toString();
 
         logger.logData(new LogEntry(LogEntry.EntryType.ERROR, msg,null));
 
         logger.sendTelemetry();
 
-        try {
+        try{
 
-            Thread.sleep(10000);
+            Thread.sleep(4000);
 
         } catch (InterruptedException ie) {
 
-            throw new RuntimeException(ie);
+            Thread.currentThread().interrupt();
 
         }
 
         requestOpModeStop();
 
     }
+
 
     public final void logData(LogEntry logEntry) {logger.logData(logEntry);}
     public final Scheduler getScheduler() {return scheduler;}

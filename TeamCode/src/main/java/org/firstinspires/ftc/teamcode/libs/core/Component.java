@@ -56,6 +56,7 @@ public abstract class Component {
 
         }
 
+
         return hardwareComponent;
 
     }

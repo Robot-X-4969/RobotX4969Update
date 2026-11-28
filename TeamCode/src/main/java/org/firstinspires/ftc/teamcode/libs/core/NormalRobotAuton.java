@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.libs.util.LogEntry;
 import org.firstinspires.ftc.teamcode.libs.util.Scheduler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class NormalRobotAuton extends LinearOpMode implements BaseOpMode{
 
@@ -30,8 +31,8 @@ public abstract class NormalRobotAuton extends LinearOpMode implements BaseOpMod
     }
 
     @Override
-    public ArrayList<Module> initModules() {
-        return null;
+    public void initModules() {
+
     }
 
     @Override
@@ -55,7 +56,7 @@ public abstract class NormalRobotAuton extends LinearOpMode implements BaseOpMod
     }
 
     @Override
-    public ArrayList<Module> getModules() {
+    public HashMap<String, Module> getModules() {
         return null;
     }
 

@@ -10,12 +10,11 @@ public abstract class Module {
 
     }
 
-    protected abstract void init_loop();
-    protected abstract void loop();
-    protected abstract void control_loop();
     protected abstract void init();
-
+    protected abstract void init_loop();
     protected abstract void start();
+    protected abstract void control_loop();
+    protected abstract void loop();
     protected abstract void stop();
 
 }

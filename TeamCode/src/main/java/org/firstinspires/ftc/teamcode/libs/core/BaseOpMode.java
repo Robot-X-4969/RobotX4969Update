@@ -14,8 +14,7 @@ import java.util.HashMap;
 public interface BaseOpMode {
 
     DriverMenu initDriverMenu();
-
-    HashMap<String, Module> initModules();
+    void initModules();
     HardwareMap getHardwareMap();
     void logData(LogEntry logEntry);
     DriverStation getDriverStation();
@@ -23,5 +22,6 @@ public interface BaseOpMode {
     HashMap<String, Module> getModules();
     Telemetry getTelemetry();
     boolean isInDebugMode();
+    double getDeltaTime();
 
 }

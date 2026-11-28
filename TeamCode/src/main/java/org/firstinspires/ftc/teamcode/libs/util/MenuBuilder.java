@@ -87,18 +87,8 @@ public final class MenuBuilder {
      */
     public MenuBuilder addAction(String optionName, Runnable action) {
 
-        if (isSubMenu()) {
-
-            MenuBuilder menuAction = new MenuBuilder(opMode, optionName, action, this);
-            builders.add(menuAction);
-            return this;
-
-        } else {
-
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add menu option to a non-submenu", null));
-
-        }
-
+        MenuBuilder menuAction = new MenuBuilder(opMode, optionName, action, this);
+        builders.add(menuAction);
         return this;
 
     }
@@ -111,19 +101,9 @@ public final class MenuBuilder {
      */
     public MenuBuilder addSubMenu(String optionName) {
 
-        if (isSubMenu()) {
-
-            MenuBuilder subMenu = new MenuBuilder(opMode, optionName, this);
-            builders.add(subMenu);
-            return subMenu;
-
-        } else {
-
-            opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot add submenu to a non-submenu", null));
-
-        }
-
-        return this;
+        MenuBuilder subMenu = new MenuBuilder(opMode, optionName, this);
+        builders.add(subMenu);
+        return subMenu;
 
     }
 
@@ -143,12 +123,12 @@ public final class MenuBuilder {
         if (parent == null) {
 
             opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot end submenu on root menu", null));
-            opMode.requestOpModeStop();
+
 
         } else {
 
             opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot end submenu on a non-submenu", null));
-            opMode.requestOpModeStop();
+
 
         }
 
@@ -172,7 +152,7 @@ public final class MenuBuilder {
         } else {
 
             opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot build menu on a non-root menu", null));
-            opMode.requestOpModeStop();
+
 
         }
 
@@ -192,7 +172,7 @@ public final class MenuBuilder {
         if (builders == null) {
 
             opMode.logData(new LogEntry(LogEntry.EntryType.ERROR, "[ERROR] in " + MenuBuilder.class.getName() + ": cannot compile a non-submenu", null));
-            opMode.requestOpModeStop();
+
             return compiledOptions;
 
         }

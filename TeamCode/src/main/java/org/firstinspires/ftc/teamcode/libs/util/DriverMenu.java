@@ -59,13 +59,13 @@ public final class DriverMenu {
      */
     public void displayMenu() {
 
-        opMode.telemetry.addLine("============== DRIVER MENU ==============");
+        opMode.getTelemetry().addLine("============== DRIVER MENU ==============");
 
         for (int i = 0; i < currentMenu.size(); i++) {
 
             MenuOption option = currentMenu.get(i);
 
-            opMode.telemetry.addLine(((i == currentIndex) ? ">" : "  ") + option.getName());
+            opMode.getTelemetry().addLine(((i == currentIndex) ? ">" : "  ") + option.getName());
 
         }
 
@@ -73,7 +73,7 @@ public final class DriverMenu {
 
             for (int i = currentMenu.size(); i < maxItems; i++) {
 
-                opMode.telemetry.addLine("");
+                opMode.getTelemetry().addLine("");
 
             }
 

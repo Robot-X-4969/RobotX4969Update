@@ -66,9 +66,9 @@ public final class Pinpoint extends Component {
      */
     public void getDebugValues() {
 
-        opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getX()), "Pinpoint X: "));
-        opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getY()), "Pinpoint Y:"));
-        opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getHeading()), "Pinpoint Heading: "));
+        //opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getX()), "Pinpoint X: "));
+        //opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getY()), "Pinpoint Y:"));
+        //opMode.logData(new LogEntry(LogEntry.EntryType.DEBUG, Double.toString(getHeading()), "Pinpoint Heading: "));
 
     }
 
@@ -83,8 +83,8 @@ public final class Pinpoint extends Component {
      *
      * @return The X position in centimeters.
      */
-    public double getX() {
-        return pinpoint.getPosition().getX(DistanceUnit.CM);
+    public double getX(DistanceUnit distanceUnit) {
+        return pinpoint.getPosition().getX(distanceUnit);
     }
 
     /**
@@ -92,8 +92,8 @@ public final class Pinpoint extends Component {
      *
      * @return The Y position in centimeters.
      */
-    public double getY() {
-        return pinpoint.getPosition().getY(DistanceUnit.CM);
+    public double getY(DistanceUnit distanceUnit) {
+        return pinpoint.getPosition().getY(distanceUnit);
     }
 
     /**
@@ -101,17 +101,11 @@ public final class Pinpoint extends Component {
      *
      * @return The heading angle in degrees.
      */
-    public double getHeading() {
-        return pinpoint.getPosition().getHeading(AngleUnit.RADIANS);
+    public double getHeading(AngleUnit angleUnit) {
+        return pinpoint.getPosition().getHeading(angleUnit);
     }
 
-    /**
-     * Overrides or resets the current position and orientation tracking to a specified starting pose.
-     *
-     * @param x       The new starting X position in centimeters.
-     * @param y       The new starting Y position in centimeters.
-     * @param heading The new starting heading in degrees.
-     */
-    public void setStartingPose(double x, double y, double heading) {pinpoint.setPosition(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.DEGREES, heading));}
+
+    public void setStartingPose(Pose2D pose) {pinpoint.setPosition(pose);}
 
 }

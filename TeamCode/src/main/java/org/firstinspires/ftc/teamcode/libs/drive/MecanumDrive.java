@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.libs.components.Pinpoint;
 import org.firstinspires.ftc.teamcode.libs.core.BaseOpMode;
 import org.firstinspires.ftc.teamcode.libs.core.Module;
 
-public class MecanumDrive extends Module {
+public final class MecanumDrive extends Module {
 
     private final MotorWrapper frontLeft;
     private final MotorWrapper frontRight;
@@ -38,7 +38,7 @@ public class MecanumDrive extends Module {
                 GoBildaPinpointDriver.EncoderDirection.FORWARD,
                 0,
                 0
-                );
+        );
         pinpoint.setStartingPose(0, 0, 0);
 
     }
@@ -56,7 +56,7 @@ public class MecanumDrive extends Module {
     @Override
     protected void control_loop() {
 
-        if(opMode.getDriverStation().getGamepad1().getY().isPressed()){
+        if(opMode.getDriverStation().getGamepad1().getY().justPressed()){
 
             isOrientationMode = !isOrientationMode;
 
@@ -75,8 +75,21 @@ public class MecanumDrive extends Module {
 
         double globalAngle = pinpoint.getHeading();
 
-        double xPrime = x * Math.cos(globalAngle) - y * Math.sin(globalAngle);
-        double yPrime = -y * Math.cos(globalAngle) - x * Math.sin(globalAngle);
+        double xPrime;
+        double yPrime;
+
+
+        if(isOrientationMode){
+
+            xPrime = x * Math.cos(globalAngle) - y * Math.sin(globalAngle);
+            yPrime = -y * Math.cos(globalAngle) - x * Math.sin(globalAngle);
+
+        } else {
+
+            xPrime = x;
+            yPrime = -y;
+
+        }
 
         double frontRightPower = yPrime + xPrime + r;
         double frontLeftPower = yPrime - xPrime - r;
@@ -99,6 +112,11 @@ public class MecanumDrive extends Module {
 
     @Override
     protected void stop() {
+
+        frontLeft.stop();
+        frontRight.stop();
+        backLeft.stop();
+        backRight.stop();
 
     }
 
